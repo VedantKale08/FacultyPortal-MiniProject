@@ -6,7 +6,7 @@ const Login = () => {
     const [toggleEye, setToggleEye] = useState(false); 
   return (
     <div className="bg-[#6EBCEC] h-screen overflow-hidden flex justify-center items-center">
-      <div className="bg-white w-[30vw] p-10 rounded-lg shadow-md flex flex-col gap-5">
+      <form className="bg-white w-[40vw] p-10 rounded-lg shadow-md flex flex-col gap-5">
         <div className="text-center">
           <p className="text-3xl font-bold">FacultyPortal</p>
           <p className="text-slate-500 text-sm">Welcome to faculty portal !</p>
@@ -21,6 +21,7 @@ const Login = () => {
             placeholder="Enter email"
             name="email"
             id="email"
+            required
             className="border border-gray-300 rounded-md px-4 py-3"
           />
         </div>
@@ -33,6 +34,7 @@ const Login = () => {
             placeholder="Enter password"
             name="password"
             id="password"
+            required
             className="border border-gray-300 rounded-md px-4 py-3"
           ></input>
           {!toggleEye && (
@@ -54,13 +56,13 @@ const Login = () => {
         </button>
         <div className="text-sm text-slate-500 text-center">
           <p>
-            Don't have account?{" "}
+            Don't have a account?{" "}
             <span className="text-[#59a1ce]">
-              <Link to='/register'>Sign up</Link>
+              <Link to="/register">Sign up</Link>
             </span>
           </p>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
