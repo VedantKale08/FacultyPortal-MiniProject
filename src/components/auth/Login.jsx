@@ -1,12 +1,46 @@
 import { Eye, EyeOff } from 'lucide-react';
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { getCookie,setCookie } from "cookies-next";
+import axios from "axios";
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const [toggleEye, setToggleEye] = useState(false); 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const handleSubmit = async(e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.post(
+          "http://localhost:3001/api/teachers_admin/login",
+          {
+            email: email,
+            password: password,
+          }
+        );
+
+        toast.success("Login successful!")
+        setCookie('token',res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.data));
+        navigate('/dashboard');
+      } catch (error) {
+        console.log(error);
+        toast.error("Invalid credentials");
+      }
+    }
+    
+    useEffect(()=>{
+      if(getCookie('token')){
+        navigate('/dashboard');
+      }
+    },[])
+
   return (
     <div className="bg-[#6EBCEC] h-screen overflow-hidden flex justify-center items-center">
-      <form className="bg-white w-[40vw] p-10 rounded-lg shadow-md flex flex-col gap-5">
+      <form className="bg-white w-[40vw] p-10 rounded-lg shadow-md flex flex-col gap-5" onSubmit={handleSubmit}>
         <div className="text-center">
           <p className="text-3xl font-bold">FacultyPortal</p>
           <p className="text-slate-500 text-sm">Welcome to faculty portal !</p>
@@ -17,10 +51,12 @@ const Login = () => {
             Email
           </label>
           <input
-            type="email"
+            type="text"
             placeholder="Enter email"
             name="email"
             id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
             className="border border-gray-300 rounded-md px-4 py-3"
           />
@@ -34,6 +70,8 @@ const Login = () => {
             placeholder="Enter password"
             name="password"
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
             className="border border-gray-300 rounded-md px-4 py-3"
           ></input>
@@ -51,7 +89,7 @@ const Login = () => {
           )}
         </div>
 
-        <button className="bg-[#61BDF6] text-white p-4 py-3 rounded-md hover:opacity-90">
+        <button type="submit" className="bg-[#61BDF6] text-white p-4 py-3 rounded-md hover:opacity-90">
           Sign in
         </button>
         <div className="text-sm text-slate-500 text-center">

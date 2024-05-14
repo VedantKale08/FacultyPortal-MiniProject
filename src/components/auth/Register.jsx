@@ -1,12 +1,36 @@
-import { ChevronRight, Eye, EyeOff } from "lucide-react";
-import React, { useState } from "react";
+import { ChevronRight, Eye, EyeOff, Plus } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import TimeSlotPopup from "./TimeSlotPopup";
+import axios from "axios";
+import { setCookie, getCookie } from "cookies-next";
 
 const Register = () => {
   const [toggleEye, setToggleEye] = useState(false);
   const [tab, setTab] = useState(0);
   const [image, setImage] = useState(null);
+  const [data, setData] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    qualifications: "",
+    departmentName: "",
+    photo: "",
+  });
+    const [formData, setFormData] = useState({
+      weekday: "",
+      startTime: "",
+      endTime: "",
+      program: "",
+      year: 0,
+      course: "",
+    });
+  const [timeSlot, setTimeSlot] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
 
   const uploadImage = (file) => {
     if (file === undefined) {
@@ -30,11 +54,88 @@ const Register = () => {
         .then((res) => res.json())
         .then((res) => {
           console.log(res.url);
+          setData((prev) => ({
+            ...prev,
+            photo: res.url,
+          }));
         });
     } else {
       toast.error("Invalid Image!");
     }
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post("http://localhost:3001/api/teachers/register", {
+          fname: data.fname,
+          lname: data.lname,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          password: data.password,
+          photo: data.photo,
+          departmentName: data.departmentName,
+          qualifications: data.qualifications,
+          subjects: timeSlot,
+      });
+      console.log(res);
+      setData({
+        fname: "",
+        lname: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+        qualifications: "",
+        departmentName: "",
+      });
+      toast.success("Registration successful!")
+      setCookie('token',res.data.token)
+      localStorage.setItem("user", JSON.stringify(res.data.data));
+      navigate('/dashboard')
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const addTimeSlot = (e) => {
+    e.preventDefault();
+    const newTimeSlot = {
+      course: formData.course,
+      program: formData.program,
+      year: formData.year,
+      timeSlot: {
+        weekday: formData.weekday,
+        startTime: formData.startTime,
+        endTime: formData.endTime,
+      },
+    };
+
+    setTimeSlot((prev) => [...prev, newTimeSlot]);
+    setShowPopup(false);
+    setFormData({
+      week_day: "",
+      st_time: "",
+      end_time: "",
+      program: "",
+      year: "",
+      course: "",
+    });
+  }
+
+  useEffect(() => {
+    if (getCookie("token")) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   return (
     <div className="bg-[#6EBCEC] h-screen overflow-hidden flex justify-center items-center">
@@ -62,6 +163,8 @@ const Register = () => {
                   placeholder="Enter first name"
                   name="fname"
                   id="fname"
+                  value={data.fname}
+                  onChange={handleInputChange}
                   required
                   className="border border-gray-300 rounded-md px-4 py-3 w-full"
                 />
@@ -75,6 +178,8 @@ const Register = () => {
                   placeholder="Enter last name"
                   name="lname"
                   id="lname"
+                  value={data.lname}
+                  onChange={handleInputChange}
                   required
                   className="border border-gray-300 rounded-md px-4 py-3 w-full"
                 />
@@ -90,6 +195,8 @@ const Register = () => {
                 placeholder="Enter email"
                 name="email"
                 id="email"
+                value={data.email}
+                onChange={handleInputChange}
                 required
                 className="border border-gray-300 rounded-md px-4 py-3"
               />
@@ -104,6 +211,8 @@ const Register = () => {
                 placeholder="Enter password"
                 name="password"
                 id="password"
+                value={data.password}
+                onChange={handleInputChange}
                 required
                 className="border border-gray-300 rounded-md px-4 py-3"
               ></input>
@@ -122,6 +231,7 @@ const Register = () => {
             </div>
             <button
               type="submit"
+              // onClick={() => setTab(1)}
               className="bg-[#61BDF6] text-white p-4 py-3 rounded-md hover:opacity-90 flex gap-2 justify-center items-center"
             >
               Next <ChevronRight size={18} />
@@ -130,16 +240,24 @@ const Register = () => {
         )}
 
         {tab === 1 && (
-          <form className="flex flex-col gap-5">
+          <form
+            className="flex flex-col gap-5"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setTab(2);
+            }}
+          >
             <div className="flex-1 flex flex-col gap-2">
-              <label htmlFor="mobile_no" className="text-slate-800">
+              <label htmlFor="phoneNumber" className="text-slate-800">
                 Mobile Number
               </label>
               <input
                 type="text"
                 placeholder="Enter mobile number"
-                name="mobile_no"
-                id="mobile_no"
+                name="phoneNumber"
+                id="phoneNumber"
+                value={data.phoneNumber}
+                onChange={handleInputChange}
                 required
                 className="border border-gray-300 rounded-md px-4 py-3"
               />
@@ -147,28 +265,32 @@ const Register = () => {
 
             <div className="flex gap-5">
               <div className="flex-1 flex flex-col gap-2">
-                <label htmlFor="qualf" className="text-slate-800">
+                <label htmlFor="qualifications" className="text-slate-800">
                   Qualifications
                 </label>
                 <input
                   type="text"
                   placeholder="Enter qualifications"
-                  name="qualf"
-                  id="qualf"
+                  name="qualifications"
+                  id="qualifications"
+                  value={data.qualifications}
+                  onChange={handleInputChange}
                   required
                   className="border border-gray-300 rounded-md px-4 py-3 w-full"
                 />
               </div>
 
               <div className="flex-1 flex flex-col gap-2">
-                <label htmlFor="dept" className="text-slate-800">
+                <label htmlFor="departmentName" className="text-slate-800">
                   Department
                 </label>
                 <input
                   type="text"
                   placeholder="Enter department"
-                  name="dept"
-                  id="dept"
+                  name="departmentName"
+                  id="departmentName"
+                  value={data.departmentName}
+                  onChange={handleInputChange}
                   required
                   className="border border-gray-300 rounded-md px-4 py-3 w-full"
                 />
@@ -198,7 +320,51 @@ const Register = () => {
             </div>
 
             <button
-              // onClick={() => setTab(2)}
+              type="submit"
+              className="bg-[#61BDF6] text-white p-4 py-3 rounded-md hover:opacity-90 flex gap-2 justify-center items-center"
+            >
+              Next
+            </button>
+          </form>
+        )}
+
+        {tab === 2 && (
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+            {showPopup && (
+              <TimeSlotPopup
+                addTimeSlot={addTimeSlot}
+                setShowPopup={setShowPopup}
+                formData={formData}
+                setFormData={setFormData}
+              />
+            )}
+            <div className="flex justify-between">
+              <p className="text-xl">Add lecture slots</p>
+              <span
+                onClick={() => setShowPopup(true)}
+                className="bg-[#61BDF6] text-white rounded-full flex justify-center items-center w-8 h-8 cursor-pointer"
+              >
+                <Plus />
+              </span>
+            </div>
+
+            {/* <p className="text-sm text-center my-4">No lectures added</p> */}
+            {timeSlot.length !== 0 ? (
+              timeSlot.map((slot, index) => (
+                <div key={index} className="border-b border-slate-300 pb-3">
+                  <p>{slot.course}</p>
+                  <p className="text-sm text-slate-500">
+                    {slot.startTime} to {slot.endTime} &bull; {slot.program}{" "}
+                    &bull; {slot.year} year
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-center my-4">No lectures added</p>
+            )}
+
+            <button
+              type="submit"
               className="bg-[#61BDF6] text-white p-4 py-3 rounded-md hover:opacity-90 flex gap-2 justify-center items-center"
             >
               Sign up

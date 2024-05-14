@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Flex,
@@ -8,6 +8,7 @@ import {
   
   useColorModeValue,
 } from "@chakra-ui/react";
+import { getCookie, setCookie } from "cookies-next";
 import { FiBook, FiUser,FiHome, FiSettings, FiBookmark } from "react-icons/fi";
 
 const SidebarContent = () => {
@@ -72,6 +73,12 @@ const NavItem = ({ icon, children, to, name }) => {
 };
 
 const SideBarTeacher = ({ children }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!getCookie("token")) {
+      navigate("/");
+    }
+  }, []);
   return (
     <Box minH="100vh" bg="gray.100">
       <SidebarContent />
