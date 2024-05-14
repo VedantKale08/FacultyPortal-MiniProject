@@ -274,6 +274,7 @@ const AllTeachers = () => {
             )}
           </Box>
         ))}
+
         {teachers.map((teacher, index) => (
           <Box
             key={index}
