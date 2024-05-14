@@ -9,6 +9,7 @@ import TeacherProfile from "./components/TeacherPortal/TeacherProfile";
 import AdminDashboard from "./components/AdminPortal/AdminDashboard";
 import SideBarAdmin from "./components/AdminPortal/SideBarAdmin";
 import AllTeachers from "./components/AdminPortal/AllTeachers";
+import LecturesTT from "./components/AdminPortal/LecturesTT";
 
 function App() {
   return (
@@ -45,6 +46,16 @@ function App() {
               <>
                 <SideBarAdmin>
                   <AllTeachers />
+                </SideBarAdmin>
+              </>
+            }
+          />
+          <Route
+            path="/LecturesTT"
+            element={
+              <>
+                <SideBarAdmin>
+                  <LecturesTT />
                 </SideBarAdmin>
               </>
             }
