@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Box, Flex, Text, Icon, useColorModeValue } from "@chakra-ui/react";
 import { FiBook, FiUser, FiHome, FiSettings, FiBookmark } from "react-icons/fi";
@@ -8,10 +8,11 @@ const SidebarContent = () => {
     { name: "Dashboard", icon: FiHome, to: "/AdminDashboard" },
     { name: "All Teachers", icon: FiUser, to: "/AllTeachers" },
     { name: "LecturesTT", icon: FiBook, to: "/LecturesTT" },
-    { name: "Lecture History", icon: FiBookmark, to: "/LectureHistory" },
+    { name: "Lecture History", icon: FiBookmark, to: "/AdminLectureHistory" },
     { name: "FeedBacks", icon: FiHome, to: "/FeedBack" },
     { name: "Report", icon: FiHome, to: "/Report" },
   ];
+  const [selectedNav, setSelectedNav] = useState("Dashboard");
 
   return (
     <Box
@@ -20,7 +21,8 @@ const SidebarContent = () => {
       w="16vw"
       h="100vh"
       pos="fixed"
-      borderRadius="20"
+      // borderRadius="20"
+      className="shadow-md"
     >
       <Flex
         h="30"
@@ -42,13 +44,15 @@ const SidebarContent = () => {
           icon={link.icon}
           to={link.to}
           name={link.name}
+          setSelectedNav={setSelectedNav}
+          selectedNav={selectedNav}
         />
       ))}
     </Box>
   );
 };
 
-const NavItem = ({ icon, children, to, name }) => {
+const NavItem = ({ icon, children, to, name, setSelectedNav, selectedNav }) => {
   return (
     <Link to={to}>
       <Box
@@ -57,10 +61,14 @@ const NavItem = ({ icon, children, to, name }) => {
           color: "white",
         }}
         py="3"
-        px="4"
+        px="16"
         cursor="pointer"
         transition="background-color 0.3s"
+        marginBottom="5"
         borderRadius="5%"
+        onClick={() => setSelectedNav(name)}
+        backgroundColor={selectedNav === name ? "#3652AD" : ""}
+        textColor={selectedNav === name ? "#fff" : ""}
       >
         <Flex align="center">
           <Icon mr="2" fontSize="20" as={icon} /> {/* Adjust icon size */}
