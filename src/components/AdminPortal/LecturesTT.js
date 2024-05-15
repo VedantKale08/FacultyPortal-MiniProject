@@ -160,7 +160,7 @@ const AllTeachers = () => {
           left="360px"
           position="relative" // Added position to make use of left prop
         >
-          Teachers TimeTable
+          Lectures TimeTable
         </Text>
         {/* Search input */}
         <Input

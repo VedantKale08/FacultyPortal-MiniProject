@@ -14,8 +14,11 @@ import AdminDashboard from "./components/AdminPortal/AdminDashboard";
 import SideBarAdmin from "./components/AdminPortal/SideBarAdmin";
 import AllTeachers from "./components/AdminPortal/AllTeachers";
 import LecturesTT from "./components/AdminPortal/LecturesTT";
-import AdminLectureHistory from "./components/AdminPortal/LectureHistory";
+import AdminLectureHistory from "./components/AdminPortal/AdminLectureHistory";
+import FeedBack from "./components/AdminPortal/FeedBack";
+import Report from "./components/AdminPortal/Report";
 import SideBarTeacher from "./components/TeacherPortal/SideBarTeacher";
+import TeacherNotification from "./components/TeacherPortal/TeacherNotification";
 
 function App() {
   return (
@@ -29,9 +32,9 @@ function App() {
             path="/Dashboard"
             element={
               <>
-                <SideBar_Teacher>
+                <SideBarTeacher>
                   <Dashboard />
-                </SideBar_Teacher>
+                </SideBarTeacher>
               </>
             }
           />
@@ -65,14 +68,44 @@ function App() {
               </>
             }
           />
-
           <Route
+            path="/FeedBack"
+            element={
+              <>
+                <SideBarAdmin>
+                  <FeedBack />
+                </SideBarAdmin>
+              </>
+            }
+          />
+          <Route
+            path="/Report"
+            element={
+              <>
+                <SideBarAdmin>
+                  <Report />
+                </SideBarAdmin>
+              </>
+            }
+          />
+
+          {/* <Route
             path="/lecture_history"
             element={
               <>
                 <SideBarTeacher>
                   <LectureHistory />
                 </SideBarTeacher>
+              </>
+            }
+          /> */}
+          <Route
+            path="/FeedBack"
+            element={
+              <>
+                <SideBarAdmin>
+                  <FeedBack />
+                </SideBarAdmin>
               </>
             }
           />
@@ -87,7 +120,7 @@ function App() {
             }
           />
 
-          <Route
+          {/* <Route
             path="/teacherLectureTT"
             element={
               <>
@@ -96,15 +129,28 @@ function App() {
                 </SideBarTeacher>
               </>
             }
+          /> */}
+
+          <Route
+            path="/TeacherNotification"
+            element={
+              <>
+                <SideBarTeacher>
+                  <TeacherNotification/>
+                </SideBarTeacher>
+              </>
+            }
           />
+
+
 
           <Route
             path="/teacher_profile"
             element={
               <>
-                <SideBar_Teacher>
+                <SideBarTeacher>
                   <TeacherProfile />
-                </SideBar_Teacher>
+                </SideBarTeacher>
               </>
             }
           />

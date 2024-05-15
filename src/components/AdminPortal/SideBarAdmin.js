@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getCookie, setCookie } from "cookies-next";
 import { Box, Flex, Text, Icon, useColorModeValue } from "@chakra-ui/react";
-import { FiBook, FiUser, FiHome, FiSettings, FiBookmark } from "react-icons/fi";
+import {
+  FiBook,
+  FiUser,
+  FiHome,
+  FiSettings,
+  FiBookmark,
+  FiInfo,
+} from "react-icons/fi";
 
 const SidebarContent = () => {
   const LinkItems = [
@@ -11,7 +18,7 @@ const SidebarContent = () => {
     { name: "LecturesTT", icon: FiBook, to: "/LecturesTT" },
     { name: "Lecture History", icon: FiBookmark, to: "/AdminLectureHistory" },
     { name: "FeedBacks", icon: FiHome, to: "/FeedBack" },
-    { name: "Report", icon: FiHome, to: "/Report" },
+    { name: "Report", icon: FiInfo, to: "/Report" },
   ];
   const [selectedNav, setSelectedNav] = useState("Dashboard");
 

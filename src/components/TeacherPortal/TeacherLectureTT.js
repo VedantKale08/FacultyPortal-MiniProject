@@ -18,7 +18,7 @@ const TeacherLectureTT = () => {
 
   return (
     // <div style={{justifyContent:"center", justifyItems:"center", marginLeft:"250px"}}>
-    <div style={{ marginLeft: "400px", marginTop:"80px", backgroundColor:"#ffffff", padding: "50px", borderRadius:"10%", maxWidth:"900px", minHeight:"600px" }}>
+    <div style={{ marginLeft: "400px", marginTop:"70px", backgroundColor:"#ffffff", padding: "50px", borderRadius:"10%", maxWidth:"900px", minHeight:"600px" , boxShadow:"rgba(54, 82, 173, 0.4) 0px 4px 12px"}}>
       <h1 style={{fontWeight:"bold", fontSize:"30px", marginBottom:"10px", textAlign:"center"}}>My Timetable</h1>
       <table style={{ borderCollapse: 'collapse', marginLeft:"60px", marginTop:"25px" }}>
         <thead>

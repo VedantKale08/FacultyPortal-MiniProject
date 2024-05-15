@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Text, Button, Input, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Divider,
+  Badge,
+  Button,
+  Input,
+  Select,
+} from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
 const AdminLectureHistory = () => {
-  const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState(""); // Define selectedDepartment
@@ -33,20 +41,17 @@ const AdminLectureHistory = () => {
     "Information Technology",
     "Civil Engineering",
   ];
+  const [showTeacherInfo, setShowTeacherInfo] = useState(
+    Array(teachers.length).fill(false)
+  );
 
+  // Function to toggle teacher information display
   const toggleTeacherInfo = (index) => {
     setShowTeacherInfo((prevState) => {
       const newState = [...prevState];
       newState[index] = !newState[index];
       return newState;
     });
-  };
-  const handleDepartmentChange = (e) => {
-    setSelectedDepartment(e.target.value);
-  };
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
   };
   const sortTeachersByName = () => {
     const sortedTeachers = [...teachers].sort((a, b) =>
@@ -62,13 +67,17 @@ const AdminLectureHistory = () => {
     setTeachers(sortedTeachers);
   };
   const sortTeachersByDate = () => {
-    const sortedTeachers = teachers.map((teacher) => ({
-      ...teacher,
-      subjects: teacher.subjects
-        .slice()
-        .sort((a, b) => new Date(a.date) - new Date(b.date)),
-    }));
+    const sortedTeachers = [...teachers].sort((a, b) => {
+      const dateA = new Date(a.subjects[0].date);
+      const dateB = new Date(b.subjects[0].date);
+      return dateA - dateB;
+    });
     setTeachers(sortedTeachers);
+  };
+
+  // Sort subjects by date
+  const sortSubjectsByDate = (subjects) => {
+    return subjects.sort((a, b) => new Date(a.date) - new Date(b.date));
   };
 
   const handleSortChange = (e) => {
@@ -77,11 +86,22 @@ const AdminLectureHistory = () => {
       sortTeachersByName();
     } else if (e.target.value === "sortBranch") {
       sortTeachersByDepartment();
+    } else if (e.target.value === "sortDate") {
+      sortTeachersByDate();
     }
   };
-
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+  };
+  const filterTeachersByDepartment = (department) => {
+    if (!department || department === "All Departments") {
+      return teachers; // If no department selected or "All Departments" selected, return all teachers
+    } else {
+      return teachers.filter((teacher) => teacher.department === department);
+    }
   };
 
   const filteredTeachers = teachers.filter(
@@ -144,7 +164,7 @@ const AdminLectureHistory = () => {
             fontSize="18px"
             mb="20px"
             value={selectedDepartment}
-            onChange={handleDepartmentChange}
+            onChange={filterTeachersByDepartment}
             px="15"
             py="4"
             border="1px solid lightgray"
@@ -159,8 +179,6 @@ const AdminLectureHistory = () => {
           </select>
 
           <DatePicker
-            selected={selectedDate}
-            onChange={handleDateChange}
             placeholderText="Select Date"
             dateFormat="yyyy-MM-dd"
             className="date-picker px-4 py-1 border border-gray-300 rounded-lg text-lg flex-1 bg-transparent"
@@ -179,8 +197,8 @@ const AdminLectureHistory = () => {
             border="1px solid lightgray"
             className="rounded-lg flex-1"
           />
-        </div>
-
+        </div>{" "}
+        */}
         {filteredTeachers.map((teacher, index) => (
           <TeacherCard
             key={index}
@@ -262,5 +280,4 @@ const SubjectsList = ({ lectureHistory }) => (
     </Flex>
   </Box>
 );
-
 export default AdminLectureHistory;

@@ -71,8 +71,8 @@ const TeacherProfile = () => {
       >
         <Box
           bg="white"
-          p="70px"
-          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          p="25px"
+          boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
           border="1px solid lightgray"
           borderRadius="12px"
           className="flex gap-28"
