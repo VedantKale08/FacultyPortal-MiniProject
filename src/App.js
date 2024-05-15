@@ -14,7 +14,7 @@ import LectureHistory from "./components/AdminPortal/LectureHistory";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App overflow-x-hidden">
       {/* <Navbar/> */}
       <BrowserRouter>
         <Routes>

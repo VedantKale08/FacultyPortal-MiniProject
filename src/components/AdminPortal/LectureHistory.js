@@ -272,70 +272,72 @@ const LectureHistory = () => {
         >
           Lectures History
         </Text>
-        <Select
-          placeholder="Sort by"
-          position="absolute"
-          top="90px"
-          left="50px"
-          w="150px"
-          variant="unstyled"
-          borderRadius="md"
-          borderColor="gray.300"
-          fontSize="18px"
-          mb="20px"
-          value={sortBy}
-          onChange={handleSortChange}
-        >
-          <option value="sortName">Sort by Name A-Z</option>
-          <option value="sortBranch">Sort by Branch A-Z</option>
-        </Select>
+        <div className="flex gap-8 my-8">
+          <select
+            placeholder="Sort by"
+            variant="unstyled"
+            borderRadius="md"
+            borderColor="gray.300"
+            fontSize="18px"
+            mb="20px"
+            value={sortBy}
+            onChange={handleSortChange}
+            px="15"
+            py="4"
+            border="1px solid lightgray"
+            className="rounded-lg flex-1 bg-transparent border border-gray-300 px-4"
+          >
+            <option value="sortName">Sort by Name A-Z</option>
+            <option value="sortBranch">Sort by Branch A-Z</option>
+          </select>
 
-        <Select
-          placeholder="Select Department"
-          position="absolute"
-          top="90px"
-          left="230px"
-          w="200px"
-          borderRadius="md"
-          borderColor="gray.300"
-          fontSize="18px"
-          mb="20px"
-          value={selectedDepartment}
-          onChange={handleDepartmentChange}
-        >
-          <option value="">All Departments</option>
-          {departments.map((department, index) => (
-            <option key={index} value={department}>
-              {department}
-            </option>
-          ))}
-        </Select>
+          <select
+            placeholder="Select Department"
+            borderRadius="md"
+            borderColor="gray.300"
+            fontSize="18px"
+            mb="20px"
+            value={selectedDepartment}
+            onChange={handleDepartmentChange}
+            px="15"
+            py="4"
+            border="1px solid lightgray"
+            className="rounded-lg flex-1 bg-transparent border border-gray-300 px-4"
+          >
+            <option value="">All Departments</option>
+            {departments.map((department, index) => (
+              <option key={index} value={department}>
+                {department}
+              </option>
+            ))}
+          </select>
 
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleDateChange}
-          placeholderText="Select Date"
-          position="absolute"
-          top="90px"
-          left="450px" // Adjusted left position
-          w="200px"
-          dateFormat="yyyy-MM-dd"
-          className="date-picker"
-        />
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            placeholderText="Select Date"
+            dateFormat="yyyy-MM-dd"
+            className="date-picker px-4 py-1 border border-gray-300 rounded-lg text-lg flex-1 bg-transparent"
+          />
 
-        <Input
-          type="text"
-          placeholder="Search for Teachers"
-          position="absolute"
-          top="90px"
-          left="680px" // Adjusted left position
-          w="250px"
-          borderRadius="md"
-          borderColor="gray.300"
-          fontSize="18px"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
+          <Input
+            type="text"
+            placeholder="Search for Teachers"
+            // position="absolute"
+            // top="90px"
+            // left="500px" // Adjusted left position
+            // w="250px"
+            borderRadius="md"
+            borderColor="gray.300"
+            fontSize="18px"
+            value={searchTerm}
+            onChange={handleSearch}
+            px="15"
+            py="4"
+            border="1px solid lightgray"
+            className="rounded-lg flex-1"
+          />
+        </div>
 
         {filteredTeachers.map((teacher, index) => (
           <TeacherCard
