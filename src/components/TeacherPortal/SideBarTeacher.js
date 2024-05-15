@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -13,11 +13,14 @@ import { FiBook, FiUser,FiHome, FiSettings, FiBookmark } from "react-icons/fi";
 
 const SidebarContent = () => {
   const LinkItems = [
-    { name: "Profile", icon: FiUser, to: "/teacher_profile" },
-    { name: "LecturesTT", icon: FiBook, to: "/teacherLectureTT" },
     { name: "Dashboard", icon: FiHome, to: "/Dashboard" },
+    { name: "LecturesTT", icon: FiBook, to: "/teacherLectureTT" },
     { name: "Lecture History", icon: FiBookmark, to: "/lecture_history" },
+    { name: "Profile", icon: FiUser, to: "/teacher_profile" },
   ];
+
+  const [selectedNav, setSelectedNav] = useState("Dashboard");
+
 
   return (
     <Box
@@ -26,7 +29,8 @@ const SidebarContent = () => {
       w="16vw"
       h="100vh"
       pos="fixed"
-      borderRadius="20"
+      // borderRadius="20"
+      className="shadow-md"
     >
       <Flex
         h="30"
@@ -43,13 +47,20 @@ const SidebarContent = () => {
         </Text>
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} to={link.to} name={link.name} />
+        <NavItem
+          key={link.name}
+          icon={link.icon}
+          to={link.to}
+          name={link.name}
+          setSelectedNav={setSelectedNav}
+          selectedNav={selectedNav}
+        />
       ))}
     </Box>
   );
 };
 
-const NavItem = ({ icon, children, to, name }) => {
+const NavItem = ({ icon, children, to, name, setSelectedNav, selectedNav }) => {
   return (
     <Link to={to}>
       <Box
@@ -58,14 +69,21 @@ const NavItem = ({ icon, children, to, name }) => {
           color: "white",
         }}
         py="3"
-        px="4"
+        px="16"
         cursor="pointer"
         transition="background-color 0.3s"
+        marginBottom="5"
         borderRadius="5%"
+        onClick={() => setSelectedNav(name)}
+        backgroundColor={selectedNav === name ? "#3652AD" : ""}
+        textColor={selectedNav === name ? "#fff" : ""}
       >
-        <Flex align="center" >
+        <Flex align="center">
           <Icon mr="2" fontSize="20" as={icon} /> {/* Adjust icon size */}
-          <Text padding="8px" fontSize="18" ml="2">{name}</Text> {/* Adjust text size and add left margin */}
+          <Text padding="8px" fontSize="18" ml="2">
+            {name}
+          </Text>{" "}
+          {/* Adjust text size and add left margin */}
         </Flex>
       </Box>
     </Link>

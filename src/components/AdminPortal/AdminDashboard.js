@@ -39,7 +39,7 @@ const AdminDashboard = () => {
       >
         Welcome to Admins's Dashboard
       </Heading>
-      <Flex justify="space-around" gap="80" mx="50">
+      <Flex justify="space-around"  >
         {/* Display total number of students */}
         <Box
           p={6}

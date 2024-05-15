@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Flex, Text, Button, Input, Select } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
+import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
 const AdminLectureHistory = () => {
@@ -10,178 +11,21 @@ const AdminLectureHistory = () => {
   const [selectedDepartment, setSelectedDepartment] = useState(""); // Define selectedDepartment
   const [selectedDate, setSelectedDate] = useState("");
 
-  const [teachers, setTeachers] = useState([
-    {
-      name: "Tukaram Shingade",
-      department: "Computer Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-          date: "2024-05-15",
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-          date: "2024-05-15",
-        },
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-          date: "2024-05-15",
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-          date: "2024-05-15",
-        },
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-          date: "2024-05-15",
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-          date: "2024-05-15",
-        },
-      ],
-    },
-    {
-      name: "Sandeep Udmale",
-      department: "Information Technology",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Vaibhav Dhore",
-      department: "Computer Technology",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Shubham Patil",
-      department: "Computer Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Priya Singh",
-      department: "Electrical Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Rahul Sharma",
-      department: "Mechanical Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Kiran Deshmukh",
-      department: "Civil Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Neha Gupta",
-      department: "Chemical Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Akash Verma",
-      department: "Aerospace Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-  ]);
+  const [teachers, setTeachers] = useState([]);
+
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/api/teachers/all_history");
+      console.log(res.data);
+      setTeachers(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const departments = [
     "Computer Engineering",
@@ -206,14 +50,14 @@ const AdminLectureHistory = () => {
   };
   const sortTeachersByName = () => {
     const sortedTeachers = [...teachers].sort((a, b) =>
-      a.name.localeCompare(b.name)
+      a.teacher.fname.localeCompare(b.teacher.fname)
     );
     setTeachers(sortedTeachers);
   };
 
   const sortTeachersByDepartment = () => {
     const sortedTeachers = [...teachers].sort((a, b) =>
-      a.department.localeCompare(b.department)
+      a.teacher.departmentName.localeCompare(b.teacher.departmentName)
     );
     setTeachers(sortedTeachers);
   };
@@ -242,8 +86,10 @@ const AdminLectureHistory = () => {
 
   const filteredTeachers = teachers.filter(
     (teacher) =>
-      teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.department.toLowerCase().includes(searchTerm.toLowerCase())
+      teacher.teacher.fname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      teacher.teacher.departmentName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -261,14 +107,14 @@ const AdminLectureHistory = () => {
         border="1px solid lightgray"
         borderRadius="12px"
         position="relative"
-        minWidth="1200px" // Minimum width for the box
+        minWidth="1200px"
       >
         <Text
           fontSize="24px"
           fontWeight="bold"
           mb="50px"
-          left="360px"
-          position="relative" // Added position to make use of left prop
+          position="relative"
+          textAlign={"center"}
         >
           Lectures History
         </Text>
@@ -323,10 +169,6 @@ const AdminLectureHistory = () => {
           <Input
             type="text"
             placeholder="Search for Teachers"
-            // position="absolute"
-            // top="90px"
-            // left="500px" // Adjusted left position
-            // w="250px"
             borderRadius="md"
             borderColor="gray.300"
             fontSize="18px"
@@ -363,11 +205,12 @@ const TeacherCard = ({
     mb="20px"
     boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" // Blue glowing border
     borderRadius="12px" // Curved border
-    p="8px"
+    p="20px"
   >
     <Flex align="center" justify="space-between">
       <Text fontSize="16px" fontWeight="bold">
-        {teacher.name} ({teacher.department})
+        Prof. {teacher.teacher.fname} {teacher.teacher.lname} (
+        {teacher.teacher.departmentName} Engineering)
       </Text>
       <Button
         onClick={() => toggleTeacherInfo(index)}
@@ -382,33 +225,38 @@ const TeacherCard = ({
         {showTeacherInfo[index] ? "-" : "+"}
       </Button>
     </Flex>
-    {showTeacherInfo[index] && <SubjectsList subjects={teacher.subjects} />}
+    {showTeacherInfo[index] && (
+      <SubjectsList lectureHistory={teacher.lectureHistory} />
+    )}
   </Box>
 );
 
-const SubjectsList = ({ subjects }) => (
+const SubjectsList = ({ lectureHistory }) => (
   <Box>
     <Text fontSize="20px" fontWeight="bold" mb="10" textAlign="center">
       Subjects Taught
     </Text>
     <Flex flexWrap="wrap">
-      {subjects.map((subject, index) => (
+      {lectureHistory?.map((subject, index) => (
         <Box
           key={index}
           p={4}
           borderRadius="md"
-          boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" // Blue glowing border
-          bg="white" // Directly specify background color
-          color="black" // Set text color
+          boxShadow="0 0 7px rgba(0, 0, 255, 0.5)"
+          bg="white"
+          color="black"
           mb={4}
-          flex="1 0 calc(50% - 1rem)" // Adjust width as needed
-          marginRight="1rem" // Add margin between boxes
+          flex="1 0 calc(50% - 1rem)"
+          marginRight="1rem"
         >
           <Text fontSize="16px" fontWeight="bold" mb="2">
-            Subject: {subject.subject}
+            Subject: {subject.course}
           </Text>
-          <Text fontSize="14px">Topic: {subject.topic}</Text>
-          <Text fontSize="14px">Attendees: {subject.studentsPresent}</Text>
+          <Text fontSize="14px">Topic: {subject.topicsCovered[0]}</Text>
+          <Text fontSize="14px">Attendees: {subject.attendance}</Text>
+          <Text fontSize="14px">
+            Date: {new Date(subject.createdAt).toLocaleDateString("en-GB")}
+          </Text>
         </Box>
       ))}
     </Flex>

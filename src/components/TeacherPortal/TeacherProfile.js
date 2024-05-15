@@ -19,7 +19,6 @@ const TeacherProfile = () => {
 
   return (
     <Flex>
-      <SideBarTeacher />
       <Flex flex="1" justify="start" align="start" paddingTop="80px" marginLeft="280px">
         <Box
           bg="white"
