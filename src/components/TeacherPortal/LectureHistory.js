@@ -35,9 +35,7 @@ const LectureHistory = () => {
   const [newProgram, setNewProgram] = useState("");
   const [newTopics, setNewTopics] = useState("");
   const [newAttendance, setNewAttendance] = useState(0);
-  const [lec, setlec] = useState(
-    JSON.parse(localStorage.getItem("user")).subjects
-  );
+  const [lec, setlec] = useState();
 
   const [lectures, setLectures] = useState([]);
 
@@ -48,8 +46,8 @@ const LectureHistory = () => {
           Authorization: "Bearer " + getCookie('token')
         }
       });
-      console.log(res.data);
-      setLectures(res.data);
+      setLectures(res.data.lectureHistory);
+      setlec(res.data.teacher.subjects)
     } catch (error) {
       console.log(error);
     }
@@ -125,7 +123,6 @@ const LectureHistory = () => {
               }
             }
           );
-          console.log(res);
           setLectures([...lectures, res.data.lectureHistory]);
           setNewTopics("")
           setNewAttendance(0)
@@ -332,7 +329,7 @@ const LectureHistory = () => {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal>        
 
       <Modal
         isOpen={isNewLectureModalOpen}

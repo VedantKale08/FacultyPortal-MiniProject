@@ -24,7 +24,6 @@ const Dashboard = () => {
           Authorization: "Bearer " + getCookie("token"),
         },
       });
-      console.log(res.data);
       setNumberOfStudents(res.data.totalStudents);
       setNumberOfClasses(res.data.totalClasses);
       setTeacherAttendance(res.data.avgAttendance);

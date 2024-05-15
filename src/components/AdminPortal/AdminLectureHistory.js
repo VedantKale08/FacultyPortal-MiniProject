@@ -24,7 +24,6 @@ const AdminLectureHistory = () => {
   const getData = async () => {
     try {
       const res = await axios.get("http://localhost:3001/api/teachers/all_history");
-      console.log(res.data);
       setTeachers(res.data);
     } catch (error) {
       console.log(error);
@@ -198,7 +197,6 @@ const AdminLectureHistory = () => {
             className="rounded-lg flex-1"
           />
         </div>{" "}
-        */}
         {filteredTeachers.map((teacher, index) => (
           <TeacherCard
             key={index}

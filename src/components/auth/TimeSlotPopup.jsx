@@ -13,9 +13,7 @@ const TimeSlotPopup = ({ addTimeSlot, setShowPopup, formData, setFormData}) => {
 
   return (
     <div className="bg-black bg-opacity-70 absolute inset-0 flex justify-center">
-      <form
-        className="flex flex-col gap-5 bg-white w-[40vw] p-8 rounded-lg h-fit mt-8"
-      >
+      <form className="flex flex-col gap-5 bg-white w-[40vw] p-8 rounded-lg h-fit mt-8">
         <div className="flex justify-between">
           <p className="text-xl">Add lecture slots</p>
           <X onClick={() => setShowPopup(false)} className="cursor-pointer" />
@@ -45,19 +43,27 @@ const TimeSlotPopup = ({ addTimeSlot, setShowPopup, formData, setFormData}) => {
         </div>
         <div className="flex gap-5">
           <div className="flex-1 flex flex-col gap-2">
-            <label htmlFor="startTime" className="text-slate-800">
+            <label htmlFor="startTime" className="text-slate-800 flex-1 ">
               Start Time
             </label>
-            <input
-              type="text"
-              placeholder="09:11"
+            <select
               name="startTime"
               id="startTime"
-              required
+              className="border border-gray-300 bg-white rounded-md px-4 py-3 w-full"
               value={formData.startTime}
               onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-4 py-3 w-full"
-            />
+            >
+              <option value="" disabled>
+                Select Week day
+              </option>
+              <option value="09">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+            </select>
           </div>
 
           <div className="flex-1 flex flex-col gap-2">
@@ -66,12 +72,12 @@ const TimeSlotPopup = ({ addTimeSlot, setShowPopup, formData, setFormData}) => {
             </label>
             <input
               type="text"
-              placeholder="09:11"
+              placeholder="e.g. Data analysis and algorithm"
               name="endTime"
               id="endTime"
-              required
-              value={formData.endTime}
-              onChange={handleInputChange}
+              disabled
+              value={formData.startTime ? parseFloat(formData.startTime) + 1 : 0}
+              // onChange={handleInputChange}
               className="border border-gray-300 rounded-md px-4 py-3 w-full"
             />
           </div>
@@ -111,7 +117,7 @@ const TimeSlotPopup = ({ addTimeSlot, setShowPopup, formData, setFormData}) => {
               onChange={handleInputChange}
               className="border border-gray-300 bg-white rounded-md px-4 py-3 w-full"
             >
-              <option value="" disabled>
+              <option value="disabled" disabled selected>
                 Select year
               </option>
               <option value="1">1</option>
@@ -138,9 +144,10 @@ const TimeSlotPopup = ({ addTimeSlot, setShowPopup, formData, setFormData}) => {
           />
         </div>
 
-        <button 
-        onClick={addTimeSlot}
-        className="bg-[#61BDF6] text-white p-4 py-3 rounded-md hover:opacity-90 flex gap-2 justify-center items-center">
+        <button
+          onClick={addTimeSlot}
+          className="bg-[#61BDF6] text-white p-4 py-3 rounded-md hover:opacity-90 flex gap-2 justify-center items-center"
+        >
           Add
         </button>
       </form>

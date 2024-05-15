@@ -28,7 +28,6 @@ const AllTeachers = () => {
   const getData = async () => {
     try {
       const res = await axios.get("http://localhost:3001/api/teachers");
-      console.log(res.data);
       setTeachers(res.data);
     } catch (error) {
       console.log(error);
@@ -113,27 +112,18 @@ const AllTeachers = () => {
           border="1px solid lightgray"
           className="rounded-lg"
         />
-        <Select
+        <select
           placeholder="Sort by"
-          position="absolute"
-          top="90px"
-          left="50px"
-          w="150px"
-          variant="unstyled"
-          borderRadius="md"
-          borderColor="gray.300"
-          fontSize="18px"
-          mb="50px"
-          px="15"
-          py="4"
           backgroundColor="transparent"
           outline="none"
           value={sortBy}
           onChange={handleSortChange}
+          className="border border-gray-200 bg-transparent rounded-lg px-4 py-2 absolute top-[90px] left-[50px]"
         >
           <option value="sortName">Sort by Name A-Z</option>
           <option value="sortBranch">Sort by Branch A-Z</option>
-        </Select>
+        </select>
+        <Divider mb="20" />
         {filteredTeachers.map((teacher, index) => (
           <Box
             key={index}

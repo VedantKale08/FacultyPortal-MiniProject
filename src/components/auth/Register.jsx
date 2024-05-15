@@ -25,7 +25,7 @@ const Register = () => {
       startTime: "",
       endTime: "",
       program: "",
-      year: 0,
+      year: "",
       course: "",
     });
   const [timeSlot, setTimeSlot] = useState([]);
@@ -53,7 +53,6 @@ const Register = () => {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res.url);
           setData((prev) => ({
             ...prev,
             photo: res.url,
@@ -87,7 +86,6 @@ const Register = () => {
           qualifications: data.qualifications,
           subjects: timeSlot,
       });
-      console.log(res);
       setData({
         fname: "",
         lname: "",
@@ -115,7 +113,7 @@ const Register = () => {
       timeSlot: {
         weekday: formData.weekday,
         startTime: formData.startTime,
-        endTime: formData.endTime,
+        endTime: (parseInt(formData.startTime)+1).toString(),
       },
     };
 
@@ -130,7 +128,6 @@ const Register = () => {
       course: "",
     });
   }
-
   useEffect(() => {
     if (getCookie("token")) {
       navigate("/dashboard");
@@ -354,8 +351,8 @@ const Register = () => {
                 <div key={index} className="border-b border-slate-300 pb-3">
                   <p>{slot.course}</p>
                   <p className="text-sm text-slate-500">
-                    {slot.startTime} to {slot.endTime} &bull; {slot.program}{" "}
-                    &bull; {slot.year} year
+                    {slot?.timeSlot?.startTime}.00 to {slot?.timeSlot?.endTime}.00 &bull;{" "}
+                    {slot.program} &bull; {slot.year} year
                   </p>
                 </div>
               ))

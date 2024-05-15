@@ -89,7 +89,7 @@ function App() {
             }
           />
 
-          {/* <Route
+          <Route
             path="/lecture_history"
             element={
               <>
@@ -98,7 +98,7 @@ function App() {
                 </SideBarTeacher>
               </>
             }
-          /> */}
+          />
           <Route
             path="/FeedBack"
             element={
@@ -120,7 +120,7 @@ function App() {
             }
           />
 
-          {/* <Route
+          <Route
             path="/teacherLectureTT"
             element={
               <>
@@ -129,7 +129,7 @@ function App() {
                 </SideBarTeacher>
               </>
             }
-          /> */}
+          />
 
           <Route
             path="/TeacherNotification"

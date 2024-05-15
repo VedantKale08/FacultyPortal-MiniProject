@@ -62,10 +62,10 @@ const AdminDashboard = () => {
         {/* Display total number of students */}
         <Box
           p={6}
-          boxShadow="md"
+          // boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
           className="rounded-xl"
-          // boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
           flex="1"
         >
           <Stat>

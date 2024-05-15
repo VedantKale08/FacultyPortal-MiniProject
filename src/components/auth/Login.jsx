@@ -25,7 +25,13 @@ const Login = () => {
         toast.success("Login successful!")
         setCookie('token',res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.data));
-        navigate('/dashboard');
+        if(email === "admin" && password === "admin123"){
+          setCookie("is_admin",true);
+          navigate("/adminDashboard");
+        }else{
+          setCookie("is_admin", false);
+          navigate('/dashboard');
+        }
       } catch (error) {
         console.log(error);
         toast.error("Invalid credentials");

@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { getCookie, setCookie } from "cookies-next";
 import { FiBook, FiUser,FiHome, FiSettings, FiBookmark, FiBell } from "react-icons/fi";
+import { LogOut } from "lucide-react";
 
 const SidebarContent = () => {
   const LinkItems = [
@@ -21,7 +22,7 @@ const SidebarContent = () => {
   ];
 
   const [selectedNav, setSelectedNav] = useState("Dashboard");
-
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -57,6 +58,32 @@ const SidebarContent = () => {
           selectedNav={selectedNav}
         />
       ))}
+      <Box
+        _hover={{
+          bg: "red",
+          color: "white",
+        }}
+        py="3"
+        px="16"
+        cursor="pointer"
+        transition="background-color 0.3s"
+        marginBottom="5"
+        borderRadius="5%"
+        textColor="red"
+        onClick={() => {
+          setCookie("token", "");
+          setCookie("is_admin", false);
+          navigate("/");
+        }}
+      >
+        <Flex align="center">
+          <Icon mr="2" fontSize="20" as={LogOut} /> {/* Adjust icon size */}
+          <Text padding="8px" fontSize="18" ml="2">
+            Logout
+          </Text>{" "}
+          {/* Adjust text size and add left margin */}
+        </Flex>
+      </Box>
     </Box>
   );
 };
@@ -96,6 +123,9 @@ const SideBarTeacher = ({ children }) => {
   useEffect(() => {
     if (!getCookie("token")) {
       navigate("/");
+    }
+    if(getCookie("is_admin") === "true") {
+      navigate("/adminDashboard");
     }
   }, []);
   return (

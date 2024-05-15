@@ -51,14 +51,11 @@ const TeacherProfile = () => {
               },
             }
           );
-          console.log(res);
         } catch (error) {
           console.log(error);
         }
     onClose();
   };
-
-  console.log(userData);
 
   return (
     <Flex>
