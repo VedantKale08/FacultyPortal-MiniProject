@@ -39,15 +39,14 @@ const Dashboard = () => {
       >
         Welcome to Teacher's Dashboard
       </Heading>
-      <Flex justify="space-around">
+      <Flex justify="space-evenly">
         {/* Display total number of students */}
         <Box
           p={6}
           borderRadius="xl"
-          boxShadow="md"
-          bg={useColorModeValue("white", "gray.700")}
+          bg="#ffffff"
           borderRadius="10%"
-          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
         >
           <Stat>
             <Flex
@@ -77,7 +76,7 @@ const Dashboard = () => {
           boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
           borderRadius="10%"
-          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
         >
           <Stat>
             <Flex
@@ -107,7 +106,8 @@ const Dashboard = () => {
           boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
           borderRadius="10%"
-          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
+
         >
           <Stat>
             <Flex

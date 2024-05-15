@@ -17,6 +17,8 @@ import LecturesTT from "./components/AdminPortal/LecturesTT";
 import AdminLectureHistory from "./components/AdminPortal/AdminLectureHistory";
 import FeedBack from "./components/AdminPortal/FeedBack";
 import Report from "./components/AdminPortal/Report";
+import SideBarTeacher from "./components/TeacherPortal/SideBarTeacher";
+import TeacherNotification from "./components/TeacherPortal/TeacherNotification";
 
 function App() {
   return (
@@ -30,9 +32,9 @@ function App() {
             path="/Dashboard"
             element={
               <>
-                <SideBar_Teacher>
+                <SideBarTeacher>
                   <Dashboard />
-                </SideBar_Teacher>
+                </SideBarTeacher>
               </>
             }
           />
@@ -130,12 +132,25 @@ function App() {
           /> */}
 
           <Route
+            path="/TeacherNotification"
+            element={
+              <>
+                <SideBarTeacher>
+                  <TeacherNotification/>
+                </SideBarTeacher>
+              </>
+            }
+          />
+
+
+
+          <Route
             path="/teacher_profile"
             element={
               <>
-                <SideBar_Teacher>
+                <SideBarTeacher>
                   <TeacherProfile />
-                </SideBar_Teacher>
+                </SideBarTeacher>
               </>
             }
           />
