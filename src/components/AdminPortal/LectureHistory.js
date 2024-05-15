@@ -13,6 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const LectureHistory = () => {
+  const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
@@ -220,33 +221,19 @@ const LectureHistory = () => {
               {department}
             </option>
           ))}
-        </Select> */}
-        {/* <div
-          style={{
-            position: "relative",
-            marginRight: "-170px",
-            marginTop: "-45px",
-            marginBottom: "30px",
-            display: "flex",
-            justifyContent: "center", // Center horizontally
-            alignItems: "center", // Center vertically
-          }}
-        >
-          <DatePicker
-            placeholderText="Select Date"
-            style={{
-              width: "200px",
-              marginRight: "20px", // Additional margin right
-              marginTop: "20px", // Additional margin top
-              border: "5px solid black !important", // Set border to black
-              borderRadius: "5px", // Add border radius for a nicer look
-              padding: "8px", // Add padding for spacing inside the DatePicker
-              fontSize: "30px", // Adjust font size if needed
-            }}
-            dateFormat="dd-MM-yyyy"
-            className="date-picker"
-          />
-        </div> */}
+        </Select>
+
+        <DatePicker
+          selected={selectedDate}
+          onChange={handleDateChange}
+          placeholderText="Select Date"
+          position="absolute"
+          top="90px"
+          left="450px" // Adjusted left position
+          w="200px"
+          dateFormat="yyyy-MM-dd"
+          className="date-picker"
+        />
 
         <Input
           type="text"
@@ -338,4 +325,5 @@ const SubjectsList = ({ subjects }) => (
     </Flex>
   </Box>
 );
+
 export default LectureHistory;
