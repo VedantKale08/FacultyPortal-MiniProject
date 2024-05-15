@@ -3,7 +3,7 @@ import { Box, Flex, Text, Button, Input, Select } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const LectureHistory = () => {
+const AdminLectureHistory = () => {
   const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -310,18 +310,26 @@ const LectureHistory = () => {
             </option>
           ))}
         </Select>
-
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleDateChange}
-          placeholderText="Select Date"
-          position="absolute"
-          top="90px"
-          left="450px" // Adjusted left position
-          w="200px"
-          dateFormat="yyyy-MM-dd"
-          className="date-picker"
-        />
+        <div
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginLeft: "300px",
+          }}
+        >
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            placeholderText="Select Date"
+            position="absolute"
+            top="90px"
+            left="450px" // Adjusted left position
+            w="200px"
+            dateFormat="yyyy-MM-dd"
+            className="date-picker"
+            align="center"
+          />
+        </div>
 
         <Input
           type="text"
@@ -413,4 +421,4 @@ const SubjectsList = ({ subjects }) => (
   </Box>
 );
 
-export default LectureHistory;
+export default AdminLectureHistory;

@@ -13,7 +13,7 @@ import { FiBook, FiUser,FiHome, FiSettings, FiBookmark } from "react-icons/fi";
 const SidebarContent = () => {
   const LinkItems = [
     { name: "Profile", icon: FiUser, to: "/teacher_profile" },
-    { name: "LecturesTT", icon: FiBook, to: "/lectures_TT" },
+    { name: "LecturesTT", icon: FiBook, to: "/teacherLectureTT" },
     { name: "Dashboard", icon: FiHome, to: "/Dashboard" },
     { name: "Lecture History", icon: FiBookmark, to: "/lecture_history" },
   ];
