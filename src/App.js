@@ -11,6 +11,7 @@ import SideBarAdmin from "./components/AdminPortal/SideBarAdmin";
 import AllTeachers from "./components/AdminPortal/AllTeachers";
 import LecturesTT from "./components/AdminPortal/LecturesTT";
 import LectureHistory from "./components/AdminPortal/LectureHistory";
+import FeedBack from "./components/AdminPortal/FeedBack";
 
 function App() {
   return (
@@ -57,6 +58,16 @@ function App() {
               <>
                 <SideBarAdmin>
                   <LectureHistory />
+                </SideBarAdmin>
+              </>
+            }
+          />
+          <Route
+            path="/FeedBack"
+            element={
+              <>
+                <SideBarAdmin>
+                  <FeedBack />
                 </SideBarAdmin>
               </>
             }

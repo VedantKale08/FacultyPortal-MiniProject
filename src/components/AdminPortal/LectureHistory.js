@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Flex, Text, Button, Input, Select } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const LectureHistory = () => {
   const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
@@ -197,13 +198,6 @@ const LectureHistory = () => {
       return newState;
     });
   };
-  const handleDepartmentChange = (e) => {
-    setSelectedDepartment(e.target.value);
-  };
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
   const sortTeachersByName = () => {
     const sortedTeachers = [...teachers].sort((a, b) =>
       a.name.localeCompare(b.name)
@@ -217,15 +211,6 @@ const LectureHistory = () => {
     );
     setTeachers(sortedTeachers);
   };
-  const sortTeachersByDate = () => {
-    const sortedTeachers = teachers.map((teacher) => ({
-      ...teacher,
-      subjects: teacher.subjects
-        .slice()
-        .sort((a, b) => new Date(a.date) - new Date(b.date)),
-    }));
-    setTeachers(sortedTeachers);
-  };
 
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
@@ -235,7 +220,6 @@ const LectureHistory = () => {
       sortTeachersByDepartment();
     }
   };
-
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -294,14 +278,12 @@ const LectureHistory = () => {
           placeholder="Select Department"
           position="absolute"
           top="90px"
-          left="230px"
+          left="320px"
           w="200px"
           borderRadius="md"
           borderColor="gray.300"
           fontSize="18px"
           mb="20px"
-          value={selectedDepartment}
-          onChange={handleDepartmentChange}
         >
           <option value="">All Departments</option>
           {departments.map((department, index) => (
@@ -310,25 +292,39 @@ const LectureHistory = () => {
             </option>
           ))}
         </Select>
-
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleDateChange}
-          placeholderText="Select Date"
-          position="absolute"
-          top="90px"
-          left="450px" // Adjusted left position
-          w="200px"
-          dateFormat="yyyy-MM-dd"
-          className="date-picker"
-        />
+        <div
+          style={{
+            position: "relative",
+            marginRight: "-170px",
+            marginTop: "-45px",
+            marginBottom: "30px",
+            display: "flex",
+            justifyContent: "center", // Center horizontally
+            alignItems: "center", // Center vertically
+          }}
+        >
+          <DatePicker
+            placeholderText="Select Date"
+            style={{
+              width: "200px",
+              marginRight: "20px", // Additional margin right
+              marginTop: "20px", // Additional margin top
+              border: "5px solid black !important", // Set border to black
+              borderRadius: "5px", // Add border radius for a nicer look
+              padding: "8px", // Add padding for spacing inside the DatePicker
+              fontSize: "30px", // Adjust font size if needed
+            }}
+            dateFormat="dd-MM-yyyy"
+            className="date-picker"
+          />
+        </div>
 
         <Input
           type="text"
           placeholder="Search for Teachers"
           position="absolute"
           top="90px"
-          left="680px" // Adjusted left position
+          left="880px" // Adjusted left position
           w="250px"
           borderRadius="md"
           borderColor="gray.300"
