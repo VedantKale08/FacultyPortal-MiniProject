@@ -7,6 +7,7 @@ import Dashboard from './components/TeacherPortal/Dashboard';
 
 import SideBar_Teacher from './components/TeacherPortal/SideBarTeacher';
 import TeacherProfile from './components/TeacherPortal/TeacherProfile';
+import LectureHistory from './components/TeacherPortal/LectureHistory';
 
 function App() {
   return (
@@ -33,6 +34,17 @@ function App() {
             <>
               <SideBar_Teacher>
                 <TeacherProfile/>
+              </SideBar_Teacher>
+            </>
+          }
+        />
+
+<Route
+          path="/lecture_history"
+          element={
+            <>
+              <SideBar_Teacher>
+                <LectureHistory/>
               </SideBar_Teacher>
             </>
           }
