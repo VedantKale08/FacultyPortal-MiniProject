@@ -1,18 +1,20 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import { Toaster } from 'react-hot-toast';
-import Dashboard from './components/TeacherPortal/Dashboard';
-
-import SideBar_Teacher from './components/TeacherPortal/SideBarTeacher';
-import TeacherProfile from './components/TeacherPortal/TeacherProfile';
-import LectureHistory from './components/TeacherPortal/LectureHistory';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import { Toaster } from "react-hot-toast";
+import Dashboard from "./components/TeacherPortal/Dashboard";
+import SideBar_Teacher from "./components/TeacherPortal/SideBarTeacher";
+import TeacherProfile from "./components/TeacherPortal/TeacherProfile";
+import AdminDashboard from "./components/AdminPortal/AdminDashboard";
+import SideBarAdmin from "./components/AdminPortal/SideBarAdmin";
+import AllTeachers from "./components/AdminPortal/AllTeachers";
+import LecturesTT from "./components/AdminPortal/LecturesTT";
 
 function App() {
   return (
     <div className="App">
-     {/* <Navbar/> */}
+      {/* <Navbar/> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -34,17 +36,6 @@ function App() {
             <>
               <SideBar_Teacher>
                 <TeacherProfile/>
-              </SideBar_Teacher>
-            </>
-          }
-        />
-
-<Route
-          path="/lecture_history"
-          element={
-            <>
-              <SideBar_Teacher>
-                <LectureHistory/>
               </SideBar_Teacher>
             </>
           }

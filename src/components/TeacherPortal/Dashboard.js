@@ -21,19 +21,40 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Box p={8} ml={{ base: 0, md: 60 }} bg="gray.100" minHeight="100vh" marginLeft="240px">
-      <Heading as="h1" p={50} mb={8} mt={8} textAlign="center" fontSize="35px" fontWeight="bold">
+    <Box
+      p={8}
+      ml={{ base: 0, md: 60 }}
+      bg="gray.100"
+      minHeight="100vh"
+      marginLeft="240px"
+    >
+      <Heading
+        as="h1"
+        p={50}
+        mb={8}
+        mt={8}
+        textAlign="center"
+        fontSize="35px"
+        fontWeight="bold"
+      >
         Welcome to Teacher's Dashboard
       </Heading>
       <Flex justify="space-around">
         {/* Display total number of students */}
-        <Box p={6} borderRadius="xl" boxShadow="md" bg={useColorModeValue("white", "gray.700")} borderRadius="10%" boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px">
+        <Box
+          p={6}
+          borderRadius="xl"
+          boxShadow="md"
+          bg={useColorModeValue("white", "gray.700")}
+          borderRadius="10%"
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+        >
           <Stat>
             <Flex
               alignItems="center"
               justifyContent="center"
               flexDirection="column"
-              padding="20px" 
+              padding="20px"
             >
               <Box
                 as="span"
@@ -41,8 +62,6 @@ const Dashboard = () => {
                 color="blue.500"
                 mb={4}
                 flexShrink={0}
-
-                
               >
                 <FiUsers fontSize={25} />
               </Box>
@@ -52,7 +71,14 @@ const Dashboard = () => {
           </Stat>
         </Box>
         {/* Display teacher's attendance */}
-        <Box p={6} borderRadius="10%" boxShadow="md" bg={useColorModeValue("white", "gray.700")} borderRadius="10%" boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px">
+        <Box
+          p={6}
+          borderRadius="10%"
+          boxShadow="md"
+          bg={useColorModeValue("white", "gray.700")}
+          borderRadius="10%"
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+        >
           <Stat>
             <Flex
               alignItems="center"
@@ -75,7 +101,14 @@ const Dashboard = () => {
           </Stat>
         </Box>
         {/* Display total number of classes */}
-        <Box p={6} borderRadius="10%" boxShadow="md" bg={useColorModeValue("white", "gray.700")} borderRadius="10%" boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px">
+        <Box
+          p={6}
+          borderRadius="10%"
+          boxShadow="md"
+          bg={useColorModeValue("white", "gray.700")}
+          borderRadius="10%"
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+        >
           <Stat>
             <Flex
               alignItems="center"
