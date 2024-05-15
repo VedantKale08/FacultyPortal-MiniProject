@@ -8,8 +8,9 @@ const SidebarContent = () => {
     { name: "Dashboard", icon: FiHome, to: "/AdminDashboard" },
     { name: "All Teachers", icon: FiUser, to: "/AllTeachers" },
     { name: "LecturesTT", icon: FiBook, to: "/LecturesTT" },
-    { name: "Lecture History", icon: FiBookmark, to: "/lecture_history" },
+    { name: "Lecture History", icon: FiBookmark, to: "/LectureHistory" },
     { name: "FeedBacks", icon: FiHome, to: "/FeedBack" },
+    { name: "Report", icon: FiHome, to: "/Report" },
   ];
 
   return (
