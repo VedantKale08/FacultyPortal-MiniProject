@@ -12,8 +12,7 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const LectureHistory = () => {
-  const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
+const AdminLectureHistory = () => {
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
@@ -131,6 +130,19 @@ const LectureHistory = () => {
     );
     setTeachers(sortedTeachers);
   };
+  const sortTeachersByDate = () => {
+    const sortedTeachers = [...teachers].sort((a, b) => {
+      const dateA = new Date(a.subjects[0].date);
+      const dateB = new Date(b.subjects[0].date);
+      return dateA - dateB;
+    });
+    setTeachers(sortedTeachers);
+  };
+
+  // Sort subjects by date
+  const sortSubjectsByDate = (subjects) => {
+    return subjects.sort((a, b) => new Date(a.date) - new Date(b.date));
+  };
 
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
@@ -138,6 +150,8 @@ const LectureHistory = () => {
       sortTeachersByName();
     } else if (e.target.value === "sortBranch") {
       sortTeachersByDepartment();
+    } else if (e.target.value === "sortDate") {
+      sortTeachersByDate();
     }
   };
   const handleDateChange = (date) => {
@@ -221,19 +235,33 @@ const LectureHistory = () => {
               {department}
             </option>
           ))}
-        </Select>
-
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleDateChange}
-          placeholderText="Select Date"
-          position="absolute"
-          top="90px"
-          left="450px" // Adjusted left position
-          w="200px"
-          dateFormat="yyyy-MM-dd"
-          className="date-picker"
-        />
+        </Select> */}
+        {/* <div
+          style={{
+            position: "relative",
+            marginRight: "-170px",
+            marginTop: "-45px",
+            marginBottom: "30px",
+            display: "flex",
+            justifyContent: "center", // Center horizontally
+            alignItems: "center", // Center vertically
+          }}
+        >
+          <DatePicker
+            placeholderText="Select Date"
+            style={{
+              width: "200px",
+              marginRight: "20px", // Additional margin right
+              marginTop: "20px", // Additional margin top
+              border: "5px solid black !important", // Set border to black
+              borderRadius: "5px", // Add border radius for a nicer look
+              padding: "8px", // Add padding for spacing inside the DatePicker
+              fontSize: "30px", // Adjust font size if needed
+            }}
+            dateFormat="dd-MM-yyyy"
+            className="date-picker"
+          />
+        </div> */}
 
         <Input
           type="text"
@@ -325,5 +353,4 @@ const SubjectsList = ({ subjects }) => (
     </Flex>
   </Box>
 );
-
-export default LectureHistory;
+export default AdminLectureHistory;

@@ -14,8 +14,9 @@ import AdminDashboard from "./components/AdminPortal/AdminDashboard";
 import SideBarAdmin from "./components/AdminPortal/SideBarAdmin";
 import AllTeachers from "./components/AdminPortal/AllTeachers";
 import LecturesTT from "./components/AdminPortal/LecturesTT";
-import LectureHistory from "./components/AdminPortal/LectureHistory";
+import AdminLectureHistory from "./components/AdminPortal/AdminLectureHistory";
 import FeedBack from "./components/AdminPortal/FeedBack";
+import Report from "./components/AdminPortal/Report";
 
 function App() {
   return (
@@ -65,8 +66,28 @@ function App() {
               </>
             }
           />
-
           <Route
+            path="/FeedBack"
+            element={
+              <>
+                <SideBarAdmin>
+                  <FeedBack />
+                </SideBarAdmin>
+              </>
+            }
+          />
+          <Route
+            path="/Report"
+            element={
+              <>
+                <SideBarAdmin>
+                  <Report />
+                </SideBarAdmin>
+              </>
+            }
+          />
+
+          {/* <Route
             path="/lecture_history"
             element={
               <>
@@ -75,7 +96,7 @@ function App() {
                 </SideBarTeacher>
               </>
             }
-          />
+          /> */}
           <Route
             path="/FeedBack"
             element={
@@ -97,7 +118,7 @@ function App() {
             }
           />
 
-          <Route
+          {/* <Route
             path="/teacherLectureTT"
             element={
               <>
@@ -106,7 +127,7 @@ function App() {
                 </SideBarTeacher>
               </>
             }
-          />
+          /> */}
 
           <Route
             path="/teacher_profile"

@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Box, Flex, Text, Icon, useColorModeValue } from "@chakra-ui/react";
-import { FiBook, FiUser, FiHome, FiSettings, FiBookmark } from "react-icons/fi";
+import {
+  FiBook,
+  FiUser,
+  FiHome,
+  FiSettings,
+  FiBookmark,
+  FiInfo,
+} from "react-icons/fi";
 
 const SidebarContent = () => {
   const LinkItems = [
@@ -10,6 +17,7 @@ const SidebarContent = () => {
     { name: "LecturesTT", icon: FiBook, to: "/LecturesTT" },
     { name: "Lecture History", icon: FiBookmark, to: "/AdminLectureHistory" },
     { name: "FeedBacks", icon: FiHome, to: "/FeedBack" },
+    { name: "Report", icon: FiInfo, to: "/Report" },
   ];
 
   return (
