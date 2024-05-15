@@ -4,13 +4,18 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./components/TeacherPortal/Dashboard";
+
+import LectureHistory from "./components/TeacherPortal/LectureHistory";
 import SideBar_Teacher from "./components/TeacherPortal/SideBarTeacher";
 import TeacherProfile from "./components/TeacherPortal/TeacherProfile";
+import TeacherLectureTT from "./components/TeacherPortal/TeacherLectureTT";
+
 import AdminDashboard from "./components/AdminPortal/AdminDashboard";
 import SideBarAdmin from "./components/AdminPortal/SideBarAdmin";
 import AllTeachers from "./components/AdminPortal/AllTeachers";
 import LecturesTT from "./components/AdminPortal/LecturesTT";
-import LectureHistory from "./components/AdminPortal/LectureHistory";
+import AdminLectureHistory from "./components/AdminPortal/LectureHistory";
+import SideBarTeacher from "./components/TeacherPortal/SideBarTeacher";
 
 function App() {
   return (
@@ -36,7 +41,6 @@ function App() {
               <>
                 <SideBarAdmin>
                   <AdminDashboard />
-                  <AllTeachers />
                 </SideBarAdmin>
               </>
             }
@@ -52,12 +56,23 @@ function App() {
             }
           />
           <Route
-            path="/LectureHistory"
+            path="/AdminLectureHistory"
             element={
               <>
                 <SideBarAdmin>
-                  <LectureHistory />
+                  <AdminLectureHistory />
                 </SideBarAdmin>
+              </>
+            }
+          />
+
+          <Route
+            path="/lecture_history"
+            element={
+              <>
+                <SideBarTeacher>
+                  <LectureHistory />
+                </SideBarTeacher>
               </>
             }
           />
@@ -71,6 +86,18 @@ function App() {
               </>
             }
           />
+
+          <Route
+            path="/teacherLectureTT"
+            element={
+              <>
+                <SideBarTeacher>
+                  <TeacherLectureTT />
+                </SideBarTeacher>
+              </>
+            }
+          />
+
           <Route
             path="/teacher_profile"
             element={

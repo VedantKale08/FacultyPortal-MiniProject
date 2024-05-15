@@ -3,7 +3,7 @@ import { Box, Flex, Text, Button, Input, Select } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const LectureHistory = () => {
+const AdminLectureHistory = () => {
   const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -415,4 +415,4 @@ const SubjectsList = ({ subjects }) => (
   </Box>
 );
 
-export default LectureHistory;
+export default AdminLectureHistory;
