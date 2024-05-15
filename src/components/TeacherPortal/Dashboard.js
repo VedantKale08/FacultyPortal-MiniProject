@@ -45,7 +45,6 @@ const Dashboard = () => {
           p={6}
           borderRadius="xl"
           bg="#ffffff"
-          // bg={useColorModeValue("white", "gray.700")}
           borderRadius="10%"
           boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
         >

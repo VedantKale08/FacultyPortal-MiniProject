@@ -8,7 +8,7 @@ import {
   
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FiBook, FiUser,FiHome, FiSettings, FiBookmark } from "react-icons/fi";
+import { FiBook, FiUser,FiHome, FiSettings, FiBookmark, FiBell } from "react-icons/fi";
 
 const SidebarContent = () => {
   const LinkItems = [
@@ -16,6 +16,7 @@ const SidebarContent = () => {
     { name: "LecturesTT", icon: FiBook, to: "/teacherLectureTT" },
     { name: "Lecture History", icon: FiBookmark, to: "/lecture_history" },
     { name: "Profile", icon: FiUser, to: "/teacher_profile" },
+    { name: "Notification", icon: FiBell, to: "/TeacherNotification" },
   ];
 
   return (
