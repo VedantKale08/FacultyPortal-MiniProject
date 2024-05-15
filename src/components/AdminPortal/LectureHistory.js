@@ -1,16 +1,23 @@
 import React, { useState } from "react";
-import { Box, Flex, Text, Button, Input, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Divider,
+  Badge,
+  Button,
+  Input,
+  Select,
+} from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaCalendarAlt } from "react-icons/fa";
 
 const LectureHistory = () => {
-  const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState(""); // Define selectedDepartment
-  const [selectedDate, setSelectedDate] = useState("");
-
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  // Dummy teacher data
   const [teachers, setTeachers] = useState([
     {
       name: "Tukaram Shingade",
@@ -20,31 +27,31 @@ const LectureHistory = () => {
           subject: "Web Development",
           topic: "Introduction to HTML",
           studentsPresent: 25,
-          date: "2024-05-15",
+          date: "15-05-2024",
         },
         {
           subject: "Database Management",
           topic: "SQL Queries",
           studentsPresent: 20,
-          date: "2024-05-15",
+          date: "15-05-2024",
         },
         {
           subject: "Web Development",
           topic: "Introduction to HTML",
           studentsPresent: 25,
-          date: "2024-05-15",
+          date: "15-05-2024",
         },
         {
           subject: "Database Management",
           topic: "SQL Queries",
           studentsPresent: 20,
-          date: "2024-05-15",
+          date: "15-05-2024",
         },
         {
           subject: "Web Development",
           topic: "Introduction to HTML",
           studentsPresent: 25,
-          date: "2024-05-15",
+          date: "15-05-2024",
         },
         {
           subject: "Database Management",
@@ -62,11 +69,13 @@ const LectureHistory = () => {
           subject: "Web Development",
           topic: "Introduction to HTML",
           studentsPresent: 25,
+          date: "15-05-2024",
         },
         {
           subject: "Database Management",
           topic: "SQL Queries",
           studentsPresent: 20,
+          date: "16-05-2024",
         },
       ],
     },
@@ -78,107 +87,13 @@ const LectureHistory = () => {
           subject: "Web Development",
           topic: "Introduction to HTML",
           studentsPresent: 25,
+          date: "15-05-2024",
         },
         {
           subject: "Database Management",
           topic: "SQL Queries",
           studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Shubham Patil",
-      department: "Computer Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Priya Singh",
-      department: "Electrical Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Rahul Sharma",
-      department: "Mechanical Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Kiran Deshmukh",
-      department: "Civil Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Neha Gupta",
-      department: "Chemical Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-        },
-      ],
-    },
-    {
-      name: "Akash Verma",
-      department: "Aerospace Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
+          date: "15-05-2024",
         },
       ],
     },
@@ -190,7 +105,11 @@ const LectureHistory = () => {
     "Information Technology",
     "Civil Engineering",
   ];
+  const [showTeacherInfo, setShowTeacherInfo] = useState(
+    Array(teachers.length).fill(false)
+  );
 
+  // Function to toggle teacher information display
   const toggleTeacherInfo = (index) => {
     setShowTeacherInfo((prevState) => {
       const newState = [...prevState];
@@ -220,14 +139,24 @@ const LectureHistory = () => {
       sortTeachersByDepartment();
     }
   };
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
+  const filterTeachersByDepartment = (department) => {
+    if (!department || department === "All Departments") {
+      return teachers; // If no department selected or "All Departments" selected, return all teachers
+    } else {
+      return teachers.filter((teacher) => teacher.department === department);
+    }
+  };
 
-  const filteredTeachers = teachers.filter(
-    (teacher) =>
-      teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.department.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredTeachers = filterTeachersByDepartment(
+    selectedDepartment
+  ).filter((teacher) =>
+    teacher.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -273,7 +202,7 @@ const LectureHistory = () => {
           <option value="sortName">Sort by Name A-Z</option>
           <option value="sortBranch">Sort by Branch A-Z</option>
         </Select>
-
+        {/* 
         <Select
           placeholder="Select Department"
           position="absolute"
@@ -291,8 +220,8 @@ const LectureHistory = () => {
               {department}
             </option>
           ))}
-        </Select>
-        <div
+        </Select> */}
+        {/* <div
           style={{
             position: "relative",
             marginRight: "-170px",
@@ -317,7 +246,7 @@ const LectureHistory = () => {
             dateFormat="dd-MM-yyyy"
             className="date-picker"
           />
-        </div>
+        </div> */}
 
         <Input
           type="text"
@@ -401,6 +330,7 @@ const SubjectsList = ({ subjects }) => (
           <Text fontSize="16px" fontWeight="bold" mb="2">
             Subject: {subject.subject}
           </Text>
+          <Text fontSize="14px">Date: {subject.date}</Text>
           <Text fontSize="14px">Topic: {subject.topic}</Text>
           <Text fontSize="14px">Attendees: {subject.studentsPresent}</Text>
         </Box>
@@ -408,5 +338,4 @@ const SubjectsList = ({ subjects }) => (
     </Flex>
   </Box>
 );
-
 export default LectureHistory;

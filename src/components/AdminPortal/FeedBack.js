@@ -10,6 +10,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
+import Rating from "@mui/material/Rating";
 
 const FeedBack = () => {
   const [sortBy, setSortBy] = useState("");
@@ -45,6 +46,14 @@ const FeedBack = () => {
       ],
     },
   ]);
+  const getPrecision = (rating) => {
+    // Fix function parameter
+    if (rating % 1 === 0) {
+      return 1; // Return 1 if the rating is a whole number
+    } else {
+      return 0.5; // Return 0.5 if the rating is a decimal
+    }
+  };
 
   // Function to toggle teacher information display
   const toggleTeacherInfo = (index) => {
@@ -173,22 +182,22 @@ const FeedBack = () => {
                   key={subjectIndex}
                   mb="8px"
                   display="flex"
-                  alignItems="center"
+                  flexDirection="column" // Render stars below the course name
                 >
                   {/* Course name */}
-                  <Text fontSize="14px" fontWeight="bold" mr="4px">
+                  <Text fontSize="14px" fontWeight="bold" mb="4px">
                     Course: {subject.name}
                   </Text>
                   {/* Rating stars */}
                   <Box display="flex">
-                    {/* Render full stars */}
-                    {[...Array(Math.floor(subject.rating))].map((_, i) => (
-                      <StarIcon key={i} color="yellow.400" boxSize={4} />
-                    ))}
-                    {/* Render half star if rating is not a whole number */}
-                    {subject.rating % 1 !== 0 && (
-                      <StarIcon color="yellow.400" boxSize={4} />
-                    )}
+                    {/* Render Rating component with dynamic precision */}
+                    <Rating
+                      key={subjectIndex}
+                      name={`rating-${index}-${subjectIndex}`}
+                      value={subject.rating}
+                      precision={getPrecision(subject.rating)}
+                      readOnly
+                    />
                   </Box>
                 </Box>
               ))}
