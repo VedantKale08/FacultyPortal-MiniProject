@@ -1,65 +1,114 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Flex, Text, Divider, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input } from "@chakra-ui/react";
 import SideBarTeacher from "./SideBarTeacher";
+import axios from "axios";
+import {getCookie} from "cookies-next";
 
 const TeacherProfile = () => {
-  // Dummy teacher data
-  const initialTeacherData = {
-    name: "John Doe",
-    subject: "Mathematics",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat.",
-    education: "Ph.D. in Mathematics",
-    contact: {
-      email: "john.doe@example.com",
-      // Add more contact info if needed
-    },
+
+  const [userData, setUserData] = useState([]);
+  const getData = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:3001/api/teachers/profile",
+        {
+          headers: {
+            Authorization: "Bearer " + getCookie("token"),
+          },
+        }
+      );
+      setUserData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  useEffect(() => {
+    getData();
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
-  const [teacherData, setTeacherData] = useState(initialTeacherData);
 
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setTeacherData({
-      ...teacherData,
+    setUserData((prevUserData) => ({
+      ...prevUserData,
       [name]: value,
-    });
+    }));
   };
 
-  const handleSubmit = () => {
-    // You can add code here to handle form submission, such as sending updated data to the server
-    console.log("Updated teacher data:", teacherData);
-    onClose(); // Close the modal after submission
+  const handleSubmit = async () => {
+    try {
+          const res = await axios.put(
+            "http://localhost:3001/api/teachers/profile",
+            userData,
+            {
+              headers: {
+                Authorization: "Bearer " + getCookie("token"),
+              },
+            }
+          );
+          console.log(res);
+        } catch (error) {
+          console.log(error);
+        }
+    onClose();
   };
+
+  console.log(userData);
 
   return (
     <Flex>
-      <Flex flex="1" justify="start" align="start" paddingTop="80px" marginLeft="280px">
+      <Flex
+        flex="1"
+        justify="start"
+        align="start"
+        paddingTop="80px"
+        marginLeft="280px"
+      >
         <Box
           bg="white"
           p="70px"
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
           border="1px solid lightgray"
           borderRadius="12px"
+          className="flex gap-28"
         >
-          {/* Box containing teacher data */}
-          <Text fontSize="24px" fontWeight="bold" mb="4">{teacherData.name}</Text>
-          <Text fontSize="20px" mb="2" color="gray.600">{teacherData.subject}</Text>
-          {/* <Text fontSize="20px" mb="4" color="gray.700">{teacherData.bio}</Text> */}
-          <Divider mb="6" />
-          <Box mb="6">
-            <Text fontSize="20px" fontWeight="bold" mb="2">Profile Information</Text>
-            <Text fontSize="20px">Qualifications: {teacherData.education}</Text>
-          </Box>
-          <Divider mb="6" />
-          <Box>
-            <Text fontSize="20px" fontWeight="bold" mb="2">Contact Information</Text>
-            <Text fontSize="20px">Email: {teacherData.contact.email}</Text>
-            {/* Add more contact info if needed */}
-          </Box>
+          <div>
+            {/* Box containing teacher data */}
+            <Text fontSize="24px" fontWeight="bold" mb="4">
+              Prof. {userData.fname} {userData.lname}
+            </Text>
+            {/* <Text fontSize="20px" mb="4" color="gray.700">{userData.bio}</Text> */}
+            <Divider mb="15" />
+            <Box mb="6">
+              <Text fontSize="20px" fontWeight="bold" mb="2">
+                Profile Information
+              </Text>
+              <Text fontSize="20px">
+                Qualifications: {userData.qualifications}
+              </Text>
+              <Text fontSize="20px">Experience: 5 years</Text>
+              <Text fontSize="20px">Department: {userData.departmentName}</Text>
+            </Box>
+            <Divider mb="15" />
+            <Box>
+              <Text fontSize="20px" fontWeight="bold" mb="2">
+                Contact Information
+              </Text>
+              <Text fontSize="20px">Email: {userData.email}</Text>
+              <Text fontSize="20px">Phone Number: {userData.phoneNumber}</Text>
+              {/* Add more contact info if needed */}
+            </Box>
+          </div>
+          <img
+            src={userData.photo}
+            alt="image"
+            className="w-52 object-cover h-52"
+          ></img>
         </Box>
         {/* Edit Profile Button */}
         <Button
@@ -77,21 +126,111 @@ const TeacherProfile = () => {
         </Button>
         {/* Edit Profile Modal */}
         <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent style={{backgroundColor:"#ffffff", maxWidth:"380px", marginLeft:"600px", border:"1px solid black", padding:"15px", borderRadius:"5%"}}>
-            <ModalHeader style={{fontWeight:"bold", fontSize:"20px", marginBottom:"15px"}}>Edit Profile</ModalHeader>
+          <ModalOverlay className="relative bg-black bg-opacity-65" />
+          <ModalContent
+            style={{
+              backgroundColor: "#ffffff",
+              maxWidth: "40vw",
+              border: "1px solid black",
+              padding: "30px",
+              borderRadius: "10px",
+            }}
+            className="absolute top-32 left-[30%]"
+          >
+            <ModalHeader
+              style={{
+                fontWeight: "bold",
+                fontSize: "20px",
+                marginBottom: "15px",
+              }}
+            >
+              Edit Profile
+            </ModalHeader>
             {/* <ModalCloseButton /> */}
             <ModalBody>
-              <Input name="name" value={teacherData.name} onChange={handleInputChange} mb="4" placeholder="Name" style={{marginBottom:"10px"}}/>
-              <Input name="subject" value={teacherData.subject} onChange={handleInputChange} mb="4" placeholder="Subject" style={{marginBottom:"10px"}} />
-              {/* <Input name="bio" value={teacherData.bio} onChange={handleInputChange} mb="4" placeholder="Bio" /> */}
-              <Input name="education" value={teacherData.education} onChange={handleInputChange} mb="4" placeholder="Education" style={{marginBottom:"10px"}} />
+              <Input
+                name="fname"
+                value={userData.fname}
+                onChange={handleInputChange}
+                mb="4"
+                placeholder="First Name"
+                style={{ marginBottom: "10px" }}
+                className="border border-gray-300 px-4 py-2 rounded-lg w-full"
+              />
+              <Input
+                name="lname"
+                value={userData.lname}
+                onChange={handleInputChange}
+                mb="4"
+                placeholder="Last Name"
+                style={{ marginBottom: "10px" }}
+                className="border border-gray-300 px-4 py-2 rounded-lg w-full"
+              />
+              <Input
+                name="email"
+                value={userData.email}
+                onChange={handleInputChange}
+                mb="4"
+                placeholder="Email"
+                style={{ marginBottom: "10px" }}
+                className="border border-gray-300 px-4 py-2 rounded-lg w-full"
+              />
+              <Input
+                name="phoneNumber"
+                value={userData.phoneNumber}
+                onChange={handleInputChange}
+                mb="4"
+                placeholder="Phone Number"
+                style={{ marginBottom: "10px" }}
+                className="border border-gray-300 px-4 py-2 rounded-lg w-full"
+              />
+              <Input
+                name="departmentName"
+                value={userData.departmentName}
+                onChange={handleInputChange}
+                mb="4"
+                placeholder="Department"
+                style={{ marginBottom: "10px" }}
+                className="border border-gray-300 px-4 py-2 rounded-lg w-full"
+              />
+              {/* <Input name="bio" value={userData.bio} onChange={handleInputChange} mb="4" placeholder="Bio" /> */}
+              <Input
+                name="qualifications"
+                value={userData.qualifications}
+                onChange={handleInputChange}
+                mb="4"
+                placeholder="Qualifications"
+                style={{ marginBottom: "10px" }}
+                className="border border-gray-300 px-4 py-2 rounded-lg w-full"
+              />
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}  style={{backgroundColor:"#3652AD", color:"#ffffff", padding:"7px", borderRadius:"10%", marginRight:"10PX"}}>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                onClick={onClose}
+                style={{
+                  backgroundColor: "#3652AD",
+                  color: "#ffffff",
+                  padding: "7px",
+                  borderRadius: "10%",
+                  marginRight: "10PX",
+                }}
+              >
                 Close
               </Button>
-              <Button variant="ghost" onClick={handleSubmit}  style={{backgroundColor:"#3652AD", color:"#ffffff", padding:"7px", borderRadius:"10%"}}>Save changes</Button>
+              <Button
+                variant="ghost"
+                onClick={handleSubmit}
+                style={{
+                  backgroundColor: "#3652AD",
+                  color: "#ffffff",
+                  padding: "7px",
+                  borderRadius: "10%",
+                }}
+              >
+                Save changes
+              </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>

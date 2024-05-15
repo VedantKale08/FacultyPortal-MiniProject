@@ -9,15 +9,32 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FiUsers, FiCalendar, FiCheckCircle } from "react-icons/fi";
+import axios from "axios";
+import { getCookie, getCookies } from "cookies-next";
 
 const Dashboard = () => {
   const [numberOfStudents, setNumberOfStudents] = useState(0);
   const [numberOfClasses, setNumberOfClasses] = useState(0);
   const [teacherAttendance, setTeacherAttendance] = useState(0); // Assume this data is fetched from an API
 
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/api/dashboard", {
+        headers: {
+          Authorization: "Bearer " + getCookie("token"),
+        },
+      });
+      console.log(res.data);
+      setNumberOfStudents(res.data.totalStudents);
+      setNumberOfClasses(res.data.totalClasses);
+      setTeacherAttendance(res.data.avgAttendance);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // Fetch data for the Teacher's Dashboard
-    // For example, you might fetch the number of students, classes, and teacher attendance
+    getData();
   }, []);
 
   return (
@@ -43,7 +60,7 @@ const Dashboard = () => {
         {/* Display total number of students */}
         <Box
           p={6}
-          boxShadow="md"
+          // boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
           flex="1"
@@ -94,8 +111,8 @@ const Dashboard = () => {
               >
                 <FiCheckCircle fontSize={20} />
               </Box>
-              <StatLabel fontSize="20px">Teacher's Attendance</StatLabel>
-              <StatNumber fontSize="20px">{teacherAttendance}%</StatNumber>
+              <StatLabel fontSize="20px">Avg Student's Attendance</StatLabel>
+              <StatNumber fontSize="20px">{teacherAttendance}</StatNumber>
             </Flex>
           </Stat>
         </Box>
