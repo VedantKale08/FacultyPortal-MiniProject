@@ -134,7 +134,7 @@ const LectureHistory = () => {
           onClick={() => setIsNewLectureModalOpen(true)}
         />
       </Box>
-      <div className="container" style={{ backgroundColor: "#ffffff", borderRadius: "2%", paddingRight: "50px" }}>
+      <div className="container" style={{ backgroundColor: "#ffffff", borderRadius: "2%", paddingRight: "50px", boxShadow:"rgba(54, 82, 173, 0.4) 0px 4px 12px" }}>
         <div style={{ paddingLeft: "40px", paddingRight: "40px", paddingBottom: "40px" }}>
           <Text fontSize="30px" fontWeight="bold" mb="4" align="center" padding="15px">
             Lecture History

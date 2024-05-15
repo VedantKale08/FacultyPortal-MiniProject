@@ -41,11 +41,12 @@ const TeacherProfile = () => {
       <Flex flex="1" justify="start" align="start" paddingTop="80px" marginLeft="280px">
         <Box
           bg="white"
-          p="70px"
-          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          p="25px"
+          boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
           border="1px solid lightgray"
           borderRadius="12px"
         >
+          <h1 style={{fontSize:"25px", fontWeight:"bold", marginBottom:"20px", textAlign:"center"}}>My Profile</h1>
           {/* Box containing teacher data */}
           <Text fontSize="24px" fontWeight="bold" mb="4">{teacherData.name}</Text>
           <Text fontSize="20px" mb="2" color="gray.600">{teacherData.subject}</Text>
