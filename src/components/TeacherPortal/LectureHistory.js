@@ -142,7 +142,7 @@ const LectureHistory = () => {
       pb="50px"
       style={{ marginTop: "50px" }}
     >
-      <Box position="absolute" top="10px" right="10px">
+      <Box position="absolute" top="60px" right="10px">
         <IconButton
           aria-label="Add lecture"
           icon={
@@ -329,7 +329,7 @@ const LectureHistory = () => {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>        
+      </Modal>
 
       <Modal
         isOpen={isNewLectureModalOpen}

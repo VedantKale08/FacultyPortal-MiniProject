@@ -127,7 +127,7 @@ const TeacherLectureTT = () => {
       }}
       className="flex flex-col items-center"
     >
-      <Box position="absolute" top="10px" right="10px">
+      <Box position="absolute" top="60px" right="10px">
         <IconButton
           aria-label="Add lecture"
           icon={
