@@ -34,12 +34,6 @@ const AdminLectureHistory = () => {
     getData();
   }, []);
 
-  const departments = [
-    "Computer Engineering",
-    "Electrical Engineering",
-    "Information Technology",
-    "Civil Engineering",
-  ];
   const [showTeacherInfo, setShowTeacherInfo] = useState(
     Array(teachers.length).fill(false)
   );
@@ -86,13 +80,6 @@ const AdminLectureHistory = () => {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
-  const filterTeachersByDepartment = (department) => {
-    if (!department || department === "All Departments") {
-      return teachers;
-    } else {
-      return teachers.filter((teacher) => teacher.department === department);
-    }
-  };
 
   const filteredTeachers = teachers.filter(
     (teacher) =>
@@ -128,44 +115,24 @@ const AdminLectureHistory = () => {
         >
           Lectures History
         </Text>
-        <div className="flex gap-8 my-8">
+        <div className="flex gap-8 my-8 justify-between">
           <select
             placeholder="Sort by"
             variant="unstyled"
             borderRadius="md"
             borderColor="gray.300"
             fontSize="18px"
+            width="300px"
             mb="20px"
             value={sortBy}
             onChange={handleSortChange}
             px="15"
             py="4"
             border="1px solid lightgray"
-            className="rounded-lg flex-1 bg-transparent border border-gray-300 px-4"
+            className="rounded-lg bg-transparent border border-gray-300 px-4"
           >
             <option value="sortName">Sort by Name A-Z</option>
             <option value="sortBranch">Sort by Branch A-Z</option>
-          </select>
-
-          <select
-            placeholder="Select Department"
-            borderRadius="md"
-            borderColor="gray.300"
-            fontSize="18px"
-            mb="20px"
-            value={selectedDepartment}
-            onChange={filterTeachersByDepartment}
-            px="15"
-            py="4"
-            border="1px solid lightgray"
-            className="rounded-lg flex-1 bg-transparent border border-gray-300 px-4"
-          >
-            <option value="">All Departments</option>
-            {departments.map((department, index) => (
-              <option key={index} value={department}>
-                {department}
-              </option>
-            ))}
           </select>
 
           <Input
@@ -179,7 +146,7 @@ const AdminLectureHistory = () => {
             px="15"
             py="4"
             border="1px solid lightgray"
-            className="rounded-lg flex-1"
+            className="rounded-lg "
           />
         </div>{" "}
         {filteredTeachers.map((teacher, index) => (

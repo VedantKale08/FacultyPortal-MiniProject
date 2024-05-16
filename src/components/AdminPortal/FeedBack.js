@@ -124,32 +124,30 @@ const FeedBack = () => {
           placeholder="Search for Teachers"
           position="absolute"
           top="90px"
-          right="20px"
+          right="50px"
           w="250px"
           borderRadius="md"
           borderColor="gray.300"
           fontSize="18px"
           value={searchTerm}
           onChange={handleSearch}
+          px="15"
+          py="4"
+          border="1px solid lightgray"
+          className="rounded-lg"
         />
-        <Select
+        <select
           placeholder="Sort by"
-          position="absolute"
-          top="90px"
-          left="50px"
-          w="150px"
-          variant="unstyled"
-          borderRadius="md"
-          borderColor="gray.300"
-          fontSize="18px"
-          mb="50px"
+          backgroundColor="transparent"
+          outline="none"
           value={sortBy}
           onChange={handleSortChange}
+          className="border border-gray-200 bg-transparent rounded-lg px-4 py-2 absolute top-[90px] left-[50px]"
         >
           <option value="sortName">Sort by Name A-Z</option>
           <option value="sortBranch">Sort by Branch A-Z</option>
-        </Select>
-        <Box display="flex" flexWrap="wrap">
+        </select>
+        <Box display="flex" flexWrap="wrap" >
           {filteredTeachers.map((teacher, index) => (
             <Box
               key={index}
@@ -159,7 +157,7 @@ const FeedBack = () => {
               boxShadow="0 0 7px rgba(0, 0, 255, 0.5)"
               borderRadius="12px"
               p="20px"
-              height={{ base: "auto", sm: "300px" }} 
+              height={{ base: "auto", sm: "300px" }}
             >
               <Text fontSize="16px" fontWeight="bold" mb="8px">
                 {teacher.name}
@@ -172,7 +170,7 @@ const FeedBack = () => {
                   key={subjectIndex}
                   mb="8px"
                   display="flex"
-                  flexDirection="column" 
+                  flexDirection="column"
                 >
                   <Text fontSize="14px" fontWeight="bold" mb="4px">
                     Course: {subject.name}
