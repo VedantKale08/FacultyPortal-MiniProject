@@ -11,6 +11,7 @@ import {
   FiInfo,
 } from "react-icons/fi";
 import { LogOut } from "lucide-react";
+import NavbarV2 from "../NavbarV2";
 
 const SidebarContent = () => {
   const LinkItems = [
@@ -132,8 +133,12 @@ const SideBarAdmin = ({ children }) => {
   return (
     <Box minH="100vh" bg="gray.100">
       <SidebarContent />
-      <Box ml={{ base: 0, md: "15vw" }} p="4">
-        {children}
+      {/* <Navbar/> */}
+      <Box ml={{ base: 0, md: "15vw" }} p="">
+        <div className="flex flex-col overflow-x-hidden">
+          <NavbarV2 />
+          {children}
+        </div>
       </Box>
     </Box>
   );

@@ -13,6 +13,9 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 import { MDBInput, MDBCheckbox, MDBBtn } from "mdb-react-ui-kit";
+import axios from "axios";
+import { getCookie } from "cookies-next";
+import toast from "react-hot-toast";
 
 const Report = () => {
   const [name, setName] = useState("");
@@ -35,19 +38,37 @@ const Report = () => {
 
   const handleRadioChange = (value) => {
     if (value === "yes") {
-      setShowTextBox(true);
-    } else {
       setShowTextBox(false);
+      setEmail("");
+    } else {
+      setShowTextBox(true);
     }
   };
 
-  const handleSendCopyChange = () => {
-    setSendCopy(!sendCopy);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Your form submission logic goes here
+    if(showTextBox && !email) {
+      toast.error("Please enter your email address")
+      return;
+    }
+    try {
+      const res = await axios.post(
+        "http://localhost:3001/api/message",
+        {
+          to_all:!showTextBox,
+          teacher_email:email,
+          subject:name,
+          message:message
+        },
+      );
+      toast.success(res.data.message)
+      setEmail("")
+      setName("")
+      setMessage("")
+    } catch (error) {
+      console.log(error);      
+      toast.error("Something went wrong!")
+    }
   };
   return (
     <Flex
@@ -98,13 +119,13 @@ const Report = () => {
             mb={15}
           />
           <Input
-            type="email"
+            type="text"
             mb="4"
             variant="filled"
             id="email"
             placeholder="Enter the body of the message"
-            value={email}
-            onChange={handleEmailChange}
+            value={message}
+            onChange={handleMessageChange}
             display="block"
             textAlign="center"
             align="center"
@@ -120,61 +141,72 @@ const Report = () => {
           />
           <FormControl as="fieldser" mx="auto" textAlign="center">
             <FormLabel as="legend" mb="2" textAlign="center">
-              Whom would you like to send the message?
+              Do you want to send this message to all teachers?
             </FormLabel>
-            <RadioGroup defaultValue="no" onChange={handleRadioChange}>
-              <Box mb="2">
+            <RadioGroup
+              defaultValue="no"
+              onChange={handleRadioChange}
+              className="flex gap-2 justify-center"
+            >
+              <Box
+                mb="2"
+                className="bg-[#3652AD] px-2 py-1 text-white rounded-xl w-[60px]"
+              >
                 <Radio value="yes">Yes</Radio>
               </Box>
-              <Box mb="2">
+              <Box
+                mb="2"
+                className="bg-[#3652AD] px-2 py-1 text-white rounded-xl w-[60px]"
+              >
                 <Radio value="no">No</Radio>
               </Box>
             </RadioGroup>
             <FormHelperText>
-              Choose "Yes" to display a small text box.
+              Choose "No" to display a small text box.
             </FormHelperText>
           </FormControl>
           {showTextBox && (
-            <Box mt="4" mb="20" textAlign="center">
+            <Box
+              mt="4"
+              mb="20"
+              textAlign="center"
+              className="flex flex-col justify-center items-center"
+            >
               {/* Display a small text box when "Yes" is clicked */}
-              <text>enter the email-id of teachers </text>
+              <text>Enter the email-id of teachers </text>
               <Input
                 type="text"
                 placeholder="Enter the Email Id"
                 width="200px"
+                className="border border-gray-300 px-4 py-2 rounded-lg"
+                value={email}
+                onChange={handleEmailChange}
               />
             </Box>
           )}
           {!showTextBox && (
             <Box mt="4" mb="20" textAlign="center">
               {/* Display a small text box when "Yes" is clicked */}
-              <Text>This message will be send to all the teachers</Text>
+              <Text>Else this message will be send to all the teachers</Text>
             </Box>
           )}
-          <Box mb="4" textAlign="center">
-            <input
-              type="checkbox"
-              id="sendCopy"
-              checked={sendCopy}
-              onChange={handleSendCopyChange}
-            />
-            <label htmlFor="sendCopy">Send me a copy of this message</label>
-          </Box>
 
-          <Button
-            type="submit"
-            mb="4"
-            mt="20"
-            colorScheme="blue"
-            width="100%"
-            fontSize="xl" // Set the font size to extra large
-            py="4" // Set padding on the y-axis to increase height
-            bg="blue.500" // Set background color to blue
-            _hover={{ bg: "blue.600" }} // Change background color on hover
-            _active={{ bg: "blue.700" }} // Change background color on active state
-          >
-            Submit
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              type="submit"
+              mb="4"
+              mt="10"
+              colorScheme="blue"
+              fontSize="xl"
+              py="4"
+              bg="blue.500"
+              _hover={{ bg: "blue.600" }}
+              _active={{ bg: "blue.700" }}
+              className="bg-[#3652AD] px-10 py-3 text-white rounded-xl w-fit"
+            >
+              Submit
+            </Button>
+          </div>
         </form>
       </Box>
     </Flex>

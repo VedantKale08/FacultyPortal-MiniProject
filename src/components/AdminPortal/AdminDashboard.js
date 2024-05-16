@@ -56,7 +56,7 @@ const AdminDashboard = () => {
         fontSize="35px"
         fontWeight="bold"
       >
-        Welcome to Admins's Dashboard
+        Welcome to Admin's Dashboard
       </Heading>
       <Flex justify="space-around" gap="80" mx="50">
         {/* Display total number of students */}
