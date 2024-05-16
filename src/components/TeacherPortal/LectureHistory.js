@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -20,7 +20,9 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
-import { EditIcon, AddIcon, DeleteIcon } from "@chakra-ui/icons"; // Import DeleteIcon
+import { EditIcon, AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import axios from "axios";
+import { getCookie } from "cookies-next";
 
 const LectureHistory = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -33,113 +35,157 @@ const LectureHistory = () => {
   const [newProgram, setNewProgram] = useState("");
   const [newTopics, setNewTopics] = useState("");
   const [newAttendance, setNewAttendance] = useState(0);
-  const [lectures, setLectures] = useState([
-    {
-      subject: "Mathematics",
-      program: "Computer Engineering",
-      topicsCovered: ["Algebra", "Calculus"],
-      attendance: 50,
-    },
-    {
-      subject: "Physics",
-      program: "Civil Engineering",
-      topicsCovered: ["Mechanics", "Thermodynamics"],
-      attendance: 45,
-    },
-    {
-      subject: "Biology",
-      program: "Biotechnology",
-      topicsCovered: ["Cell Biology", "Genetics"],
-      attendance: 40,
-    },
-    {
-      subject: "Chemistry",
-      program: "Chemical Engineering",
-      topicsCovered: ["Organic Chemistry", "Inorganic Chemistry"],
-      attendance: 55,
-    },
-    {
-      subject: "Computer Science",
-      program: "Computer Science",
-      topicsCovered: ["Data Structures", "Algorithms"],
-      attendance: 60,
-    },
-    {
-      subject: "Electrical Engineering",
-      program: "Electrical Engineering",
-      topicsCovered: ["Circuit Analysis", "Electromagnetics"],
-      attendance: 48,
-    },
-    {
-      subject: "English",
-      program: "Literature",
-      topicsCovered: ["Poetry", "Fiction"],
-      attendance: 42,
-    },
-    {
-      subject: "History",
-      program: "History",
-      topicsCovered: ["Ancient History", "Modern History"],
-      attendance: 38,
-    },
-    {
-      subject: "Psychology",
-      program: "Psychology",
-      topicsCovered: ["Cognitive Psychology", "Developmental Psychology"],
-      attendance: 47,
-    },
-    {
-      subject: "Sociology",
-      program: "Sociology",
-      topicsCovered: ["Social Theory", "Cultural Studies"],
-      attendance: 50,
-    },
-  ]);
+  const [lec, setlec] = useState();
+
+  const [lectures, setLectures] = useState([]);
+
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/api/teachers/history", {
+        headers:{
+          Authorization: "Bearer " + getCookie('token')
+        }
+      });
+      setLectures(res.data.lectureHistory);
+      setlec(res.data.teacher.subjects)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const handleEditClick = (lecture) => {
-    setEditedSubject(lecture.subject);
+    setEditedSubject(lecture._id);
     setEditedProgram(lecture.program);
     setEditedTopics(lecture.topicsCovered.join(", "));
     setEditedAttendance(lecture.attendance);
     setIsEditing(true);
   };
 
-  const handleUpdate = () => {
-    // Implement update logic here
+  const handleUpdate = async () => {
+    try {
+       const newLecture = {
+         topicsCovered: editedTopics.split(", "),
+         attendance: editedAttendance,
+       };
+      const res = await axios.put(
+        "http://localhost:3001/api/lecturehistory/" + editedSubject,
+        newLecture,
+        {
+          headers:{
+            Authorization:"Bearer " +getCookie("token")
+          }
+        }
+      );
+      setLectures(res.data.data);
+      setNewTopics("")
+      setNewAttendance(0)
+    } catch (error) {
+      console.log(error);
+    }
     setIsEditing(false);
   };
 
-  const handleDeleteClick = (index) => {
-    const updatedLectures = lectures.filter((_, i) => i !== index);
-    setLectures(updatedLectures);
+  const handleDeleteClick = async (lecture) => {
+     try {
+      const res = await axios.delete(
+        "http://localhost:3001/api/lecturehistory/" + lecture._id,
+        {
+          headers: {
+            Authorization: "Bearer " + getCookie("token"),
+          },
+        }
+      );
+      setLectures(res.data.data);
+      setNewTopics("")
+      setNewAttendance(0)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleNewLectureSubmit = () => {
+  const handleNewLectureSubmit = async () => {
     const newLecture = {
-      subject: newSubject,
-      program: newProgram,
       topicsCovered: newTopics.split(", "),
       attendance: newAttendance,
     };
-    setLectures([...lectures, newLecture]); // In a real app, you would send this to the server
+
+    try {
+          const res = await axios.put(
+            "http://localhost:3001/api/teachers/lectures/" + newSubject,
+            newLecture,
+            {
+              headers:{
+                Authorization:"Bearer " +getCookie("token")
+              }
+            }
+          );
+          setLectures([...lectures, res.data.lectureHistory]);
+          setNewTopics("")
+          setNewAttendance(0)
+        } catch (error) {
+          console.log(error);
+        }
     setIsNewLectureModalOpen(false);
   };
 
   return (
-    <Flex direction="column" p="4" mt="8" ml="246px" pr="50px" pb="50px" style={{ marginTop: "50px" }}>
+    <Flex
+      direction="column"
+      p="4"
+      mt="8"
+      ml="246px"
+      pr="50px"
+      pb="50px"
+      style={{ marginTop: "50px" }}
+    >
       <Box position="absolute" top="10px" right="10px">
         <IconButton
           aria-label="Add lecture"
-          icon={<AddIcon style={{ backgroundColor: "#3652AD", color: "#ffffff", padding: "10px", fontSize: "40px", borderRadius: "50%", marginRight: "5px", marginTop: "5px" }} />}
+          icon={
+            <AddIcon
+              style={{
+                backgroundColor: "#3652AD",
+                color: "#ffffff",
+                padding: "10px",
+                fontSize: "40px",
+                borderRadius: "50%",
+                marginRight: "5px",
+                marginTop: "5px",
+              }}
+            />
+          }
           onClick={() => setIsNewLectureModalOpen(true)}
         />
       </Box>
-      <div className="container" style={{ backgroundColor: "#ffffff", borderRadius: "2%", paddingRight: "50px", boxShadow:"rgba(54, 82, 173, 0.4) 0px 4px 12px" }}>
-        <div style={{ paddingLeft: "40px", paddingRight: "40px", paddingBottom: "40px" }}>
-          <Text fontSize="30px" fontWeight="bold" mb="4" align="center" padding="15px">
+      <div
+        className="container"
+        style={{
+          backgroundColor: "#ffffff",
+          borderRadius: "2%",
+          paddingRight: "50px",
+        }}
+      >
+        <div
+          style={{
+            paddingLeft: "40px",
+            paddingRight: "40px",
+            paddingBottom: "40px",
+          }}
+        >
+          <Text
+            fontSize="30px"
+            fontWeight="bold"
+            mb="4"
+            align="center"
+            padding="15px"
+          >
             Lecture History
           </Text>
-          <Box overflowX="auto">
+          <Box overflowX="auto" className="flex justify-center">
             <Table variant="simple" fontSize="20px">
               <Thead>
                 <Tr>
@@ -166,22 +212,32 @@ const LectureHistory = () => {
               <Tbody>
                 {lectures.map((lecture, index) => (
                   <Tr key={index}>
-                    <Td borderWidth="1px" padding="20px">{index + 1}</Td>
-                    <Td borderWidth="1px" padding="20px">{lecture.subject}</Td>
-                    <Td borderWidth="1px" padding="20px">{lecture.program}</Td>
-                    <Td borderWidth="1px" padding="20px">{lecture.topicsCovered.join(", ")}</Td>
-                    <Td borderWidth="1px" padding="20px">{lecture.attendance}</Td>
+                    <Td borderWidth="1px" padding="20px">
+                      {index + 1}
+                    </Td>
+                    <Td borderWidth="1px" padding="20px">
+                      {lecture.course}
+                    </Td>
+                    <Td borderWidth="1px" padding="20px">
+                      {lecture.program}
+                    </Td>
+                    <Td borderWidth="1px" padding="20px">
+                      {lecture.topicsCovered.join(", ")}
+                    </Td>
+                    <Td borderWidth="1px" padding="20px">
+                      {lecture.attendance}
+                    </Td>
                     <Td borderWidth="1px" padding="20px">
                       <IconButton
                         aria-label="Edit"
-                        icon={<EditIcon style={{marginLeft:"8px"}} />}
+                        icon={<EditIcon style={{ marginLeft: "8px" }} />}
                         onClick={() => handleEditClick(lecture)}
                         mr="2"
                       />
                       <IconButton
                         aria-label="Delete"
-                        icon={<DeleteIcon style={{marginLeft:"10px"}} />}
-                        onClick={() => handleDeleteClick(index)}
+                        icon={<DeleteIcon style={{ marginLeft: "10px" }} />}
+                        onClick={() => handleDeleteClick(lecture)}
                       />
                     </Td>
                   </Tr>
@@ -193,42 +249,172 @@ const LectureHistory = () => {
       </div>
       <Modal isOpen={isEditing} onClose={() => setIsEditing(false)}>
         <ModalOverlay />
-        <ModalContent marginLeft={500} style={{ backgroundColor: "white", marginRight: "600px", minHeight: "300px", fontSize: "20px", padding: "10px", border: "2px solid gray", borderRadius: "5%" }}>
-          <ModalHeader style={{ fontWeight: "bold", padding: "10px" }}>Update History</ModalHeader>
+        <ModalContent
+          marginLeft={500}
+          style={{
+            backgroundColor: "white",
+            marginRight: "600px",
+            minHeight: "300px",
+            fontSize: "20px",
+            padding: "10px",
+            border: "2px solid gray",
+            borderRadius: "5%",
+          }}
+        >
+          <ModalHeader style={{ fontWeight: "bold", padding: "10px" }}>
+            Update History
+          </ModalHeader>
           <ModalBody style={{ padding: "12px" }}>
             <Flex direction="column">
-              <Input placeholder="Subject" value={editedSubject} onChange={(e) => setEditedSubject(e.target.value)} mb="4" />
-              <Input placeholder="Program" value={editedProgram} onChange={(e) => setEditedProgram(e.target.value)} mb="4" />
-              <Input placeholder="Topics Covered" value={editedTopics} onChange={(e) => setEditedTopics(e.target.value)} mb="4" />
-              <Input placeholder="Attendance" type="number" value={editedAttendance} onChange={(e) => setEditedAttendance(e.target.value)} />
+              <select
+                onChange={(e) => setNewSubject(e.target.value)}
+                className="border border-gray-300 px-4 py-2 rounded-lg mb-2 bg-transparent"
+              >
+                <option disabled selected>
+                  Select
+                </option>
+                {lec?.map((data) => {
+                  return (
+                    <option key={data._id} value={data._id}>
+                      {data.course}
+                    </option>
+                  );
+                })}
+              </select>
+              <Input
+                placeholder="Topics Covered"
+                value={editedTopics}
+                onChange={(e) => setEditedTopics(e.target.value)}
+                mb="4"
+                className="border border-gray-300 px-4 py-2 rounded-lg"
+              />
+              <Input
+                placeholder="Attendance"
+                type="number"
+                value={editedAttendance}
+                onChange={(e) => setEditedAttendance(e.target.value)}
+                className="border border-gray-300 px-4 py-2 rounded-lg"
+              />
             </Flex>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleUpdate} style={{ backgroundColor: "#3652AD", color: "#ffffff", padding: "5px", borderRadius: "10%", marginRight: "15px", marginTop: "20px" }}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleUpdate}
+              style={{
+                backgroundColor: "#3652AD",
+                color: "#ffffff",
+                padding: "5px",
+                borderRadius: "10%",
+                marginRight: "15px",
+                marginTop: "20px",
+              }}
+            >
               Update
             </Button>
-            <Button onClick={() => setIsEditing(false)} style={{ backgroundColor: "#3652AD", color: "#ffffff", padding: "5px", borderRadius: "10%", marginRight: "15px", marginTop: "20px" }}> Cancel</Button>
+            <Button
+              onClick={() => setIsEditing(false)}
+              style={{
+                backgroundColor: "#3652AD",
+                color: "#ffffff",
+                padding: "5px",
+                borderRadius: "10%",
+                marginRight: "15px",
+                marginTop: "20px",
+              }}
+            >
+              {" "}
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal>        
 
-      <Modal isOpen={isNewLectureModalOpen} onClose={() => setIsNewLectureModalOpen(false)}>
+      <Modal
+        isOpen={isNewLectureModalOpen}
+        onClose={() => setIsNewLectureModalOpen(false)}
+      >
         <ModalOverlay />
-        <ModalContent marginLeft={500} style={{ backgroundColor: "white", marginRight: "600px", minHeight: "300px", fontSize: "20px", padding: "10px", border: "2px solid gray", borderRadius: "5%" }}>
-          <ModalHeader style={{ fontWeight: "bold", padding: "10px" }}>Add New Lecture</ModalHeader>
+        <ModalContent
+          marginLeft={500}
+          style={{
+            backgroundColor: "white",
+            marginRight: "600px",
+            minHeight: "300px",
+            fontSize: "20px",
+            padding: "10px",
+            border: "2px solid gray",
+            borderRadius: "5%",
+          }}
+        >
+          <ModalHeader style={{ fontWeight: "bold", padding: "10px" }}>
+            Add New Lecture
+          </ModalHeader>
           <ModalBody style={{ padding: "12px" }}>
             <Flex direction="column">
-              <Input placeholder="Subject" style={{ marginBottom: "10px" }} value={newSubject} onChange={(e) => setNewSubject(e.target.value)} mb="4" />
-              <Input placeholder="Program" style={{ marginBottom: "10px" }} value={newProgram} onChange={(e) => setNewProgram(e.target.value)} mb="4" />
-              <Input placeholder="Topics Covered" style={{ marginBottom: "10px" }} value={newTopics} onChange={(e) => setNewTopics(e.target.value)} mb="4" />
-              <Input placeholder="Attendance" type="number" value={newAttendance} onChange={(e) => setNewAttendance(e.target.value)} />
+              <select
+                onChange={(e) => setNewSubject(e.target.value)}
+                className="border border-gray-300 px-4 py-2 rounded-lg mb-4 bg-transparent"
+              >
+                <option disabled selected>
+                  Select
+                </option>
+                {lec?.map((data) => {
+                  return (
+                    <option key={data._id} value={data._id}>
+                      {data.course}
+                    </option>
+                  );
+                })}
+              </select>
+              <Input
+                placeholder="Topics Covered"
+                style={{ marginBottom: "10px" }}
+                value={newTopics}
+                onChange={(e) => setNewTopics(e.target.value)}
+                mb="4"
+                className="border border-gray-300 px-4 py-2 rounded-lg"
+              />
+              <Input
+                placeholder="Attendance"
+                type="number"
+                value={newAttendance}
+                onChange={(e) => setNewAttendance(e.target.value)}
+                className="border border-gray-300 px-4 py-2 rounded-lg"
+              />
             </Flex>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleNewLectureSubmit} style={{ backgroundColor: "#3652AD", color: "#ffffff", padding: "7px", borderRadius: "10%", marginRight: "15px", marginTop: "20px" }}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleNewLectureSubmit}
+              style={{
+                backgroundColor: "#3652AD",
+                color: "#ffffff",
+                padding: "7px",
+                borderRadius: "10%",
+                marginRight: "15px",
+                marginTop: "20px",
+              }}
+            >
               Add
             </Button>
-            <Button onClick={() => setIsNewLectureModalOpen(false)} style={{ backgroundColor: "#3652AD", color: "#ffffff", padding: "7px", borderRadius: "10%", marginRight: "15px", marginTop: "20px" }}> Cancel</Button>
+            <Button
+              onClick={() => setIsNewLectureModalOpen(false)}
+              style={{
+                backgroundColor: "#3652AD",
+                color: "#ffffff",
+                padding: "7px",
+                borderRadius: "10%",
+                marginRight: "15px",
+                marginTop: "20px",
+              }}
+            >
+              {" "}
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

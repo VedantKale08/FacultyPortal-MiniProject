@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -10,94 +10,29 @@ import {
   Select,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
+import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
 const AdminLectureHistory = () => {
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
-  // Dummy teacher data
-  const [teachers, setTeachers] = useState([
-    {
-      name: "Tukaram Shingade",
-      department: "Computer Engineering",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-          date: "15-05-2024",
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-          date: "15-05-2024",
-        },
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-          date: "15-05-2024",
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-          date: "15-05-2024",
-        },
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-          date: "15-05-2024",
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-          date: "2024-05-15",
-        },
-      ],
-    },
-    {
-      name: "Sandeep Udmale",
-      department: "Information Technology",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-          date: "15-05-2024",
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-          date: "16-05-2024",
-        },
-      ],
-    },
-    {
-      name: "Vaibhav Dhore",
-      department: "Computer Technology",
-      subjects: [
-        {
-          subject: "Web Development",
-          topic: "Introduction to HTML",
-          studentsPresent: 25,
-          date: "15-05-2024",
-        },
-        {
-          subject: "Database Management",
-          topic: "SQL Queries",
-          studentsPresent: 20,
-          date: "15-05-2024",
-        },
-      ],
-    },
-  ]);
+  const [selectedDepartment, setSelectedDepartment] = useState(""); // Define selectedDepartment
+  const [selectedDate, setSelectedDate] = useState("");
+
+  const [teachers, setTeachers] = useState([]);
+
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/api/teachers/all_history");
+      setTeachers(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const departments = [
     "Computer Engineering",
@@ -119,14 +54,14 @@ const AdminLectureHistory = () => {
   };
   const sortTeachersByName = () => {
     const sortedTeachers = [...teachers].sort((a, b) =>
-      a.name.localeCompare(b.name)
+      a.teacher.fname.localeCompare(b.teacher.fname)
     );
     setTeachers(sortedTeachers);
   };
 
   const sortTeachersByDepartment = () => {
     const sortedTeachers = [...teachers].sort((a, b) =>
-      a.department.localeCompare(b.department)
+      a.teacher.departmentName.localeCompare(b.teacher.departmentName)
     );
     setTeachers(sortedTeachers);
   };
@@ -168,10 +103,12 @@ const AdminLectureHistory = () => {
     }
   };
 
-  const filteredTeachers = filterTeachersByDepartment(
-    selectedDepartment
-  ).filter((teacher) =>
-    teacher.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredTeachers = teachers.filter(
+    (teacher) =>
+      teacher.teacher.fname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      teacher.teacher.departmentName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -189,94 +126,77 @@ const AdminLectureHistory = () => {
         border="1px solid lightgray"
         borderRadius="12px"
         position="relative"
-        minWidth="1200px" // Minimum width for the box
+        minWidth="1200px"
       >
         <Text
           fontSize="24px"
           fontWeight="bold"
           mb="50px"
-          left="360px"
-          position="relative" // Added position to make use of left prop
+          position="relative"
+          textAlign={"center"}
         >
           Lectures History
         </Text>
-        <Select
-          placeholder="Sort by"
-          position="absolute"
-          top="90px"
-          left="50px"
-          w="150px"
-          variant="unstyled"
-          borderRadius="md"
-          borderColor="gray.300"
-          fontSize="18px"
-          mb="20px"
-          value={sortBy}
-          onChange={handleSortChange}
-        >
-          <option value="sortName">Sort by Name A-Z</option>
-          <option value="sortBranch">Sort by Branch A-Z</option>
-        </Select>
-        {/* 
-        <Select
-          placeholder="Select Department"
-          position="absolute"
-          top="90px"
-          left="320px"
-          w="200px"
-          borderRadius="md"
-          borderColor="gray.300"
-          fontSize="18px"
-          mb="20px"
-        >
-          <option value="">All Departments</option>
-          {departments.map((department, index) => (
-            <option key={index} value={department}>
-              {department}
-            </option>
-          ))}
-        </Select> */}
-        {/* <div
-          style={{
-            position: "relative",
-            marginRight: "-170px",
-            marginTop: "-45px",
-            marginBottom: "30px",
-            display: "flex",
-            justifyContent: "center", // Center horizontally
-            alignItems: "center", // Center vertically
-          }}
-        >
+        <div className="flex gap-8 my-8">
+          <select
+            placeholder="Sort by"
+            variant="unstyled"
+            borderRadius="md"
+            borderColor="gray.300"
+            fontSize="18px"
+            mb="20px"
+            value={sortBy}
+            onChange={handleSortChange}
+            px="15"
+            py="4"
+            border="1px solid lightgray"
+            className="rounded-lg flex-1 bg-transparent border border-gray-300 px-4"
+          >
+            <option value="sortName">Sort by Name A-Z</option>
+            <option value="sortBranch">Sort by Branch A-Z</option>
+          </select>
+
+          <select
+            placeholder="Select Department"
+            borderRadius="md"
+            borderColor="gray.300"
+            fontSize="18px"
+            mb="20px"
+            value={selectedDepartment}
+            onChange={filterTeachersByDepartment}
+            px="15"
+            py="4"
+            border="1px solid lightgray"
+            className="rounded-lg flex-1 bg-transparent border border-gray-300 px-4"
+          >
+            <option value="">All Departments</option>
+            {departments.map((department, index) => (
+              <option key={index} value={department}>
+                {department}
+              </option>
+            ))}
+          </select>
+
           <DatePicker
             placeholderText="Select Date"
-            style={{
-              width: "200px",
-              marginRight: "20px", // Additional margin right
-              marginTop: "20px", // Additional margin top
-              border: "5px solid black !important", // Set border to black
-              borderRadius: "5px", // Add border radius for a nicer look
-              padding: "8px", // Add padding for spacing inside the DatePicker
-              fontSize: "30px", // Adjust font size if needed
-            }}
-            dateFormat="dd-MM-yyyy"
-            className="date-picker"
+            dateFormat="yyyy-MM-dd"
+            className="date-picker px-4 py-1 border border-gray-300 rounded-lg text-lg flex-1 bg-transparent"
           />
-        </div> */}
 
-        <Input
-          type="text"
-          placeholder="Search for Teachers"
-          position="absolute"
-          top="90px"
-          left="880px" // Adjusted left position
-          w="250px"
-          borderRadius="md"
-          borderColor="gray.300"
-          fontSize="18px"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-
+          <Input
+            type="text"
+            placeholder="Search for Teachers"
+            borderRadius="md"
+            borderColor="gray.300"
+            fontSize="18px"
+            value={searchTerm}
+            onChange={handleSearch}
+            px="15"
+            py="4"
+            border="1px solid lightgray"
+            className="rounded-lg flex-1"
+          />
+        </div>{" "}
         {filteredTeachers.map((teacher, index) => (
           <TeacherCard
             key={index}
@@ -301,11 +221,12 @@ const TeacherCard = ({
     mb="20px"
     boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" // Blue glowing border
     borderRadius="12px" // Curved border
-    p="8px"
+    p="20px"
   >
     <Flex align="center" justify="space-between">
       <Text fontSize="16px" fontWeight="bold">
-        {teacher.name} ({teacher.department})
+        Prof. {teacher.teacher.fname} {teacher.teacher.lname} (
+        {teacher.teacher.departmentName} Engineering)
       </Text>
       <Button
         onClick={() => toggleTeacherInfo(index)}
@@ -320,34 +241,38 @@ const TeacherCard = ({
         {showTeacherInfo[index] ? "-" : "+"}
       </Button>
     </Flex>
-    {showTeacherInfo[index] && <SubjectsList subjects={teacher.subjects} />}
+    {showTeacherInfo[index] && (
+      <SubjectsList lectureHistory={teacher.lectureHistory} />
+    )}
   </Box>
 );
 
-const SubjectsList = ({ subjects }) => (
+const SubjectsList = ({ lectureHistory }) => (
   <Box>
     <Text fontSize="20px" fontWeight="bold" mb="10" textAlign="center">
       Subjects Taught
     </Text>
     <Flex flexWrap="wrap">
-      {subjects.map((subject, index) => (
+      {lectureHistory?.map((subject, index) => (
         <Box
           key={index}
           p={4}
           borderRadius="md"
-          boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" // Blue glowing border
-          bg="white" // Directly specify background color
-          color="black" // Set text color
+          boxShadow="0 0 7px rgba(0, 0, 255, 0.5)"
+          bg="white"
+          color="black"
           mb={4}
-          flex="1 0 calc(50% - 1rem)" // Adjust width as needed
-          marginRight="1rem" // Add margin between boxes
+          flex="1 0 calc(50% - 1rem)"
+          marginRight="1rem"
         >
           <Text fontSize="16px" fontWeight="bold" mb="2">
-            Subject: {subject.subject}
+            Subject: {subject.course}
           </Text>
-          <Text fontSize="14px">Date: {subject.date}</Text>
-          <Text fontSize="14px">Topic: {subject.topic}</Text>
-          <Text fontSize="14px">Attendees: {subject.studentsPresent}</Text>
+          <Text fontSize="14px">Topic: {subject.topicsCovered[0]}</Text>
+          <Text fontSize="14px">Attendees: {subject.attendance}</Text>
+          <Text fontSize="14px">
+            Date: {new Date(subject.createdAt).toLocaleDateString("en-GB")}
+          </Text>
         </Box>
       ))}
     </Flex>

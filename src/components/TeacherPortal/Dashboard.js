@@ -9,15 +9,31 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FiUsers, FiCalendar, FiCheckCircle } from "react-icons/fi";
+import axios from "axios";
+import { getCookie, getCookies } from "cookies-next";
 
 const Dashboard = () => {
   const [numberOfStudents, setNumberOfStudents] = useState(0);
   const [numberOfClasses, setNumberOfClasses] = useState(0);
   const [teacherAttendance, setTeacherAttendance] = useState(0); // Assume this data is fetched from an API
 
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/api/dashboard", {
+        headers: {
+          Authorization: "Bearer " + getCookie("token"),
+        },
+      });
+      setNumberOfStudents(res.data.totalStudents);
+      setNumberOfClasses(res.data.totalClasses);
+      setTeacherAttendance(res.data.avgAttendance);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // Fetch data for the Teacher's Dashboard
-    // For example, you might fetch the number of students, classes, and teacher attendance
+    getData();
   }, []);
 
   return (
@@ -39,14 +55,15 @@ const Dashboard = () => {
       >
         Welcome to Teacher's Dashboard
       </Heading>
-      <Flex justify="space-evenly">
+      <Flex justify="space-around" gap="80" mx="50">
         {/* Display total number of students */}
         <Box
           p={6}
-          borderRadius="xl"
-          bg="#ffffff"
-          borderRadius="10%"
-          boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
+          // boxShadow="md"
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          flex="1"
+          className="rounded-xl"
         >
           <Stat>
             <Flex
@@ -72,11 +89,10 @@ const Dashboard = () => {
         {/* Display teacher's attendance */}
         <Box
           p={6}
-          borderRadius="10%"
-          boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
-          borderRadius="10%"
-          boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          flex="1"
+          className="rounded-xl"
         >
           <Stat>
             <Flex
@@ -94,20 +110,18 @@ const Dashboard = () => {
               >
                 <FiCheckCircle fontSize={20} />
               </Box>
-              <StatLabel fontSize="20px">Teacher's Attendance</StatLabel>
-              <StatNumber fontSize="20px">{teacherAttendance}%</StatNumber>
+              <StatLabel fontSize="20px">Avg Student's Attendance</StatLabel>
+              <StatNumber fontSize="20px">{teacherAttendance}</StatNumber>
             </Flex>
           </Stat>
         </Box>
         {/* Display total number of classes */}
         <Box
           p={6}
-          borderRadius="10%"
-          boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
-          borderRadius="10%"
-          boxShadow="rgba(54, 82, 173, 0.4) 0px 4px 12px"
-
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+          flex="1"
+          className="rounded-xl"
         >
           <Stat>
             <Flex

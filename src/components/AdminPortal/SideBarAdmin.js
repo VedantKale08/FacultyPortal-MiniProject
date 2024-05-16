@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { getCookie, setCookie } from "cookies-next";
 import { Box, Flex, Text, Icon, useColorModeValue } from "@chakra-ui/react";
 import {
   FiBook,
@@ -9,6 +10,8 @@ import {
   FiBookmark,
   FiInfo,
 } from "react-icons/fi";
+import { LogOut } from "lucide-react";
+import NavbarV2 from "../NavbarV2";
 
 const SidebarContent = () => {
   const LinkItems = [
@@ -19,6 +22,8 @@ const SidebarContent = () => {
     { name: "FeedBacks", icon: FiHome, to: "/FeedBack" },
     { name: "Report", icon: FiInfo, to: "/Report" },
   ];
+  const [selectedNav, setSelectedNav] = useState("Dashboard");
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -27,7 +32,8 @@ const SidebarContent = () => {
       w="16vw"
       h="100vh"
       pos="fixed"
-      borderRadius="20"
+      // borderRadius="20"
+      className="shadow-md"
     >
       <Flex
         h="30"
@@ -49,13 +55,42 @@ const SidebarContent = () => {
           icon={link.icon}
           to={link.to}
           name={link.name}
+          setSelectedNav={setSelectedNav}
+          selectedNav={selectedNav}
         />
       ))}
+      <Box
+        _hover={{
+          bg: "red",
+          color: "white",
+        }}
+        py="3"
+        px="16"
+        cursor="pointer"
+        transition="background-color 0.3s"
+        marginBottom="5"
+        borderRadius="5%"
+        textColor="red"
+        onClick={() => {
+          setCookie("token","");
+          setCookie("is_admin",false);
+          navigate("/")
+          
+        }}
+      >
+        <Flex align="center">
+          <Icon mr="2" fontSize="20" as={LogOut} /> {/* Adjust icon size */}
+          <Text padding="8px" fontSize="18" ml="2">
+            Logout
+          </Text>{" "}
+          {/* Adjust text size and add left margin */}
+        </Flex>
+      </Box>
     </Box>
   );
 };
 
-const NavItem = ({ icon, children, to, name }) => {
+const NavItem = ({ icon, children, to, name, setSelectedNav, selectedNav }) => {
   return (
     <Link to={to}>
       <Box
@@ -64,10 +99,14 @@ const NavItem = ({ icon, children, to, name }) => {
           color: "white",
         }}
         py="3"
-        px="4"
+        px="16"
         cursor="pointer"
         transition="background-color 0.3s"
+        marginBottom="5"
         borderRadius="5%"
+        onClick={() => setSelectedNav(name)}
+        backgroundColor={selectedNav === name ? "#3652AD" : ""}
+        textColor={selectedNav === name ? "#fff" : ""}
       >
         <Flex align="center">
           <Icon mr="2" fontSize="20" as={icon} /> {/* Adjust icon size */}
@@ -82,11 +121,24 @@ const NavItem = ({ icon, children, to, name }) => {
 };
 
 const SideBarAdmin = ({ children }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!getCookie("token")) {
+      navigate("/");
+    }
+    if (getCookie("is_admin") === "false") {
+      navigate("/dashboard");
+    }
+  }, []);
   return (
     <Box minH="100vh" bg="gray.100">
       <SidebarContent />
-      <Box ml={{ base: 0, md: "15vw" }} p="4">
-        {children}
+      {/* <Navbar/> */}
+      <Box ml={{ base: 0, md: "15vw" }} p="">
+        <div className="flex flex-col overflow-x-hidden">
+          <NavbarV2 />
+          {children}
+        </div>
       </Box>
     </Box>
   );
