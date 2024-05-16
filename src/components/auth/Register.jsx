@@ -228,7 +228,6 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              // onClick={() => setTab(1)}
               className="bg-[#61BDF6] text-white p-4 py-3 rounded-md hover:opacity-90 flex gap-2 justify-center items-center"
             >
               Next <ChevronRight size={18} />
@@ -345,7 +344,6 @@ const Register = () => {
               </span>
             </div>
 
-            {/* <p className="text-sm text-center my-4">No lectures added</p> */}
             {timeSlot.length !== 0 ? (
               timeSlot.map((slot, index) => (
                 <div key={index} className="border-b border-slate-300 pb-3">

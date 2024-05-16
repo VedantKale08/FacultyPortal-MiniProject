@@ -84,14 +84,14 @@ const AllTeachers = () => {
         border="1px solid lightgray"
         borderRadius="12px"
         position="relative"
-        minWidth="1200px" // Minimum width for the box
+        minWidth="1200px"
       >
         <Text
           fontSize="24px"
           fontWeight="bold"
           mb="50px"
           left="360px"
-          position="relative" // Added position to make use of left prop
+          position="relative"
         >
           Teachers in the Institute
         </Text>
@@ -101,7 +101,7 @@ const AllTeachers = () => {
           position="absolute"
           top="90px"
           right="50px"
-          w="250px" // Increased width to 250px
+          w="250px"
           borderRadius="md"
           borderColor="gray.300"
           fontSize="18px"
@@ -128,8 +128,8 @@ const AllTeachers = () => {
           <Box
             key={index}
             mb="20px"
-            boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" // Blue glowing border
-            borderRadius="12px" // Curved border
+            boxShadow="0 0 7px rgba(0, 0, 255, 0.5)"
+            borderRadius="12px"
             p="8px"
           >
             <Flex align="center" justify="space-between">
@@ -197,9 +197,6 @@ const AllTeachers = () => {
                     src={teacher.photo}
                     alt={`${teacher.fname}'s Photo`}
                     style={{
-                      // position: "absolute",
-                      // top: "calc(15% + 10px)",
-                      // right: "80px",
                       width: "200px",
                       height: "200px",
                       borderRadius: "8px",
@@ -212,94 +209,6 @@ const AllTeachers = () => {
             )}
           </Box>
         ))}
-
-        {/* {teachers.map((teacher, index) => ( */}
-        {/* <Box
-            key={index}
-            mb="20px"
-            position="relative" // Position relative to contain the absolute positioning of the image
-            boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" // Blue glowing border
-            borderRadius="12px" // Curved border
-            p="8px"
-          >
-            <Flex align="center" justify="space-between">
-              <Text fontSize="16px" fontWeight="bold">
-                Prof. {teacher.fname} {teacher.lname} ({teacher.departmentName})
-              </Text>
-              <Button
-                onClick={() => toggleTeacherInfo(index)}
-                bg="transparent"
-                color="blue.500"
-                fontSize="24px"
-                fontWeight="bold"
-                _hover={{
-                  bg: "transparent",
-                }}
-              >
-                {showTeacherInfo[index] ? "-" : "+"}
-              </Button>
-            </Flex>
-            {showTeacherInfo[index] && (
-              <>
-                <Text fontSize="20px" mb="2" color="gray.600">
-                  {teacher.bio}
-                </Text>
-                <Divider mb="6" />
-                <Box mb="6">
-                  <Text fontSize="20px" fontWeight="bold" mb="2">
-                    Profile Information
-                  </Text>
-                  <Text fontSize="20px">
-                    Education: {teacher.qualifications}
-                  </Text>
-                  <Text fontSize="20px">Experience: 5 years </Text>
-                </Box>
-                <Divider mb="6" />
-                <Box mb="6">
-                  <Text fontSize="20px" fontWeight="bold" mb="2">
-                    Courses Taught
-                  </Text>
-                  {teacher?.subjects?.map((course, index) => (
-                    <React.Fragment key={index}>
-                      <Badge colorScheme="blue" fontSize="20px" mr="2" mb="2">
-                        {course.course}
-                      </Badge>
-                      {index !== teacher.subjects.length - 1 && (
-                        <Text as="span" fontSize="20px" fontWeight="bold">
-                          ,{" "}
-                        </Text>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </Box>
-                <Divider mb="6" />
-                <Box>
-                  <Text fontSize="20px" fontWeight="bold" mb="2">
-                    Contact Information
-                  </Text>
-                  <Text fontSize="20px">Email: {teacher.email}</Text>
-                  Add more contact info if needed
-                </Box>
-                Conditionally render the image
-                {showTeacherInfo[index] && (
-                  <img
-                    src={teacher.photo}
-                    alt={`${teacher.fname}'s Photo`}
-                    style={{
-                      position: "absolute",
-                      top: "calc(15% + 10px)", // Position the image below the teacher's information
-                      right: "80px", // Add padding from the right border
-                      width: "200px",
-                      height: "200px",
-                      borderRadius: "8px",
-                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)", // Optional: Add a shadow to the image
-                    }}
-                  />
-                )}
-              </>
-            )}
-          </Box> */}
-        {/* ))} */}
       </Box>
     </Flex>
   );

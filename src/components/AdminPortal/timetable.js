@@ -34,7 +34,6 @@ const WeeklyTimeTable = () => {
         endTime: moment("2018-02-22T16:30:00"),
       },
     ],
-    // Define events for other days similarly
   };
 
   const renderHour = (hour, defaultAttributes, styles) => {

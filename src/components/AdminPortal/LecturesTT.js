@@ -15,7 +15,6 @@ import { getCookie } from "cookies-next";
 const AllTeachers = () => {
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  // State for showing teacher information
   const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
@@ -34,7 +33,6 @@ const AllTeachers = () => {
     getData();
   }, []);
 
-  // Function to toggle teacher information display
   const toggleTeacherInfo = (index) => {
     setShowTeacherInfo((prevState) => {
       const newState = [...prevState];
@@ -99,25 +97,24 @@ const AllTeachers = () => {
         border="1px solid lightgray"
         borderRadius="12px"
         position="relative"
-        minWidth="1200px" // Minimum width for the box
+        minWidth="1200px"
       >
         <Text
           fontSize="24px"
           fontWeight="bold"
           mb="50px"
           left="360px"
-          position="relative" // Added position to make use of left prop
+          position="relative"
         >
           Lectures TimeTable
         </Text>
-        {/* Search input */}
         <Input
           type="text"
           placeholder="Search for Teachers"
           position="absolute"
           top="90px"
           right="50px"
-          w="250px" // Increased width to 250px
+          w="250px"
           borderRadius="md"
           borderColor="gray.300"
           fontSize="18px"
@@ -139,23 +136,20 @@ const AllTeachers = () => {
           <option value="sortName">Sort by Name A-Z</option>
           <option value="sortBranch">Sort by Branch A-Z</option>
         </select>
-        {/* Teacher cards */}
         <Divider mb="20"/>
         {filteredTeachers.map((teacher, index) => (
           <Box
             key={index}
             mb="20px"
-            boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" // Blue glowing border
-            borderRadius="12px" // Curved border
+            boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" 
+            borderRadius="12px"
             p="20px"
           >
-            {/* Teacher name and department */}
             <Flex align="center" justify="space-between">
               <Text fontSize="16px" fontWeight="bold">
                 Prof. {teacher.fname} {teacher.lname} ({teacher.departmentName}{" "}
                 Engineering)
               </Text>
-              {/* Button to toggle teacher information */}
               <Button
                 onClick={() => toggleTeacherInfo(index)}
                 bg="transparent"
@@ -169,11 +163,8 @@ const AllTeachers = () => {
                 {showTeacherInfo[index] ? "-" : "+"}
               </Button>
             </Flex>
-            {/* Teacher information */}
             {showTeacherInfo[index] && (
               <div className="flex justify-center">
-                {/* Other content */}
-                {/* Table for displaying timetable */}
                 <Box mt="5px">
                   <Text
                     fontSize="18px"

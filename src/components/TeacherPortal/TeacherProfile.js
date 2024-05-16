@@ -75,11 +75,9 @@ const TeacherProfile = () => {
           className="flex gap-28"
         >
           <div>
-            {/* Box containing teacher data */}
             <Text fontSize="24px" fontWeight="bold" mb="4">
               Prof. {userData.fname} {userData.lname}
             </Text>
-            {/* <Text fontSize="20px" mb="4" color="gray.700">{userData.bio}</Text> */}
             <Divider mb="15" />
             <Box mb="6">
               <Text fontSize="20px" fontWeight="bold" mb="2">
@@ -98,7 +96,6 @@ const TeacherProfile = () => {
               </Text>
               <Text fontSize="20px">Email: {userData.email}</Text>
               <Text fontSize="20px">Phone Number: {userData.phoneNumber}</Text>
-              {/* Add more contact info if needed */}
             </Box>
           </div>
           <img
@@ -107,7 +104,6 @@ const TeacherProfile = () => {
             className="w-52 object-cover h-52"
           ></img>
         </Box>
-        {/* Edit Profile Button */}
         <Button
           bg="#3652AD"
           borderRadius="12%"
@@ -121,7 +117,6 @@ const TeacherProfile = () => {
         >
           Edit Profile
         </Button>
-        {/* Edit Profile Modal */}
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay className="relative bg-black bg-opacity-65" />
           <ModalContent
@@ -143,7 +138,6 @@ const TeacherProfile = () => {
             >
               Edit Profile
             </ModalHeader>
-            {/* <ModalCloseButton /> */}
             <ModalBody>
               <Input
                 name="fname"
@@ -190,7 +184,6 @@ const TeacherProfile = () => {
                 style={{ marginBottom: "10px" }}
                 className="border border-gray-300 px-4 py-2 rounded-lg w-full"
               />
-              {/* <Input name="bio" value={userData.bio} onChange={handleInputChange} mb="4" placeholder="Bio" /> */}
               <Input
                 name="qualifications"
                 value={userData.qualifications}

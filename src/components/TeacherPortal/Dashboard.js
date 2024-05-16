@@ -15,7 +15,7 @@ import { getCookie, getCookies } from "cookies-next";
 const Dashboard = () => {
   const [numberOfStudents, setNumberOfStudents] = useState(0);
   const [numberOfClasses, setNumberOfClasses] = useState(0);
-  const [teacherAttendance, setTeacherAttendance] = useState(0); // Assume this data is fetched from an API
+  const [teacherAttendance, setTeacherAttendance] = useState(0);
 
   const getData = async () => {
     try {
@@ -56,10 +56,8 @@ const Dashboard = () => {
         Welcome to Teacher's Dashboard
       </Heading>
       <Flex justify="space-around" gap="80" mx="50">
-        {/* Display total number of students */}
         <Box
           p={6}
-          // boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
           flex="1"
@@ -86,7 +84,6 @@ const Dashboard = () => {
             </Flex>
           </Stat>
         </Box>
-        {/* Display teacher's attendance */}
         <Box
           p={6}
           bg={useColorModeValue("white", "gray.700")}
@@ -115,7 +112,6 @@ const Dashboard = () => {
             </Flex>
           </Stat>
         </Box>
-        {/* Display total number of classes */}
         <Box
           p={6}
           bg={useColorModeValue("white", "gray.700")}

@@ -77,7 +77,6 @@ const TimeSlotPopup = ({ addTimeSlot, setShowPopup, formData, setFormData}) => {
               id="endTime"
               disabled
               value={formData.startTime ? parseFloat(formData.startTime) + 1 : 0}
-              // onChange={handleInputChange}
               className="border border-gray-300 rounded-md px-4 py-3 w-full"
             />
           </div>

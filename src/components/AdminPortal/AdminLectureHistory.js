@@ -16,7 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const AdminLectureHistory = () => {
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState(""); // Define selectedDepartment
+  const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
 
   const [teachers, setTeachers] = useState([]);
@@ -44,7 +44,6 @@ const AdminLectureHistory = () => {
     Array(teachers.length).fill(false)
   );
 
-  // Function to toggle teacher information display
   const toggleTeacherInfo = (index) => {
     setShowTeacherInfo((prevState) => {
       const newState = [...prevState];
@@ -74,11 +73,6 @@ const AdminLectureHistory = () => {
     setTeachers(sortedTeachers);
   };
 
-  // Sort subjects by date
-  const sortSubjectsByDate = (subjects) => {
-    return subjects.sort((a, b) => new Date(a.date) - new Date(b.date));
-  };
-
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
     if (e.target.value === "sortName") {
@@ -89,15 +83,12 @@ const AdminLectureHistory = () => {
       sortTeachersByDate();
     }
   };
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
   const filterTeachersByDepartment = (department) => {
     if (!department || department === "All Departments") {
-      return teachers; // If no department selected or "All Departments" selected, return all teachers
+      return teachers;
     } else {
       return teachers.filter((teacher) => teacher.department === department);
     }
@@ -177,12 +168,6 @@ const AdminLectureHistory = () => {
             ))}
           </select>
 
-          <DatePicker
-            placeholderText="Select Date"
-            dateFormat="yyyy-MM-dd"
-            className="date-picker px-4 py-1 border border-gray-300 rounded-lg text-lg flex-1 bg-transparent"
-          />
-
           <Input
             type="text"
             placeholder="Search for Teachers"
@@ -219,8 +204,8 @@ const TeacherCard = ({
 }) => (
   <Box
     mb="20px"
-    boxShadow="0 0 7px rgba(0, 0, 255, 0.5)" // Blue glowing border
-    borderRadius="12px" // Curved border
+    boxShadow="0 0 7px rgba(0, 0, 255, 0.5)"
+    borderRadius="12px"
     p="20px"
   >
     <Flex align="center" justify="space-between">

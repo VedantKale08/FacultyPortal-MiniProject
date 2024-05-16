@@ -159,7 +159,6 @@ const TeacherLectureTT = () => {
       <table
         style={{
           borderCollapse: "collapse",
-          // marginLeft: "60px",
           marginTop: "25px",
         }}
       >
@@ -284,7 +283,6 @@ const TeacherLectureTT = () => {
                         ? parseFloat(formData.startTime) + 1
                         : 0
                     }
-                    // onChange={handleInputChange}
                     className="border border-gray-300 rounded-md px-4 py-3 w-full"
                   />
                 </div>

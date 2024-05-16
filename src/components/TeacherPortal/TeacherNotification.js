@@ -3,23 +3,6 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 
 const TeacherNotification = () => {
-  // Dummy data for notifications
-  // const notifications = [
-  //   {
-  //     id: 1,
-  //     title: "No Lectures Today",
-  //     message: "Today, after 2 PM, there will be no lectures.",
-  //     timestamp: "2024-05-17 14:00",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Submit End Sem Marksheets",
-  //     message: "Please submit the end semester marksheets to the exam section by May 30, 2024.",
-  //     timestamp: "2024-05-17 09:30",
-  //   },
-  //   // Add more dummy notifications as needed
-  // ];
-
   const [notifications, setNotifications] = useState([]);
 
   const getData = async () => {

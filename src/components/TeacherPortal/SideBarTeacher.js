@@ -32,7 +32,6 @@ const SidebarContent = () => {
       w="16vw"
       h="100vh"
       pos="fixed"
-      // borderRadius="20"
       className="shadow-md"
     >
       <Flex
@@ -78,11 +77,10 @@ const SidebarContent = () => {
         }}
       >
         <Flex align="center">
-          <Icon mr="2" fontSize="20" as={LogOut} /> {/* Adjust icon size */}
+          <Icon mr="2" fontSize="20" as={LogOut} />
           <Text padding="8px" fontSize="18" ml="2">
             Logout
           </Text>{" "}
-          {/* Adjust text size and add left margin */}
         </Flex>
       </Box>
     </Box>
@@ -108,11 +106,10 @@ const NavItem = ({ icon, children, to, name, setSelectedNav, selectedNav }) => {
         textColor={selectedNav === name ? "#fff" : ""}
       >
         <Flex align="center">
-          <Icon mr="2" fontSize="20" as={icon} /> {/* Adjust icon size */}
+          <Icon mr="2" fontSize="20" as={icon} />
           <Text padding="8px" fontSize="18" ml="2">
             {name}
           </Text>{" "}
-          {/* Adjust text size and add left margin */}
         </Flex>
       </Box>
     </Link>

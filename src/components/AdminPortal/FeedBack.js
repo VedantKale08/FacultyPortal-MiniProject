@@ -15,10 +15,8 @@ import Rating from "@mui/material/Rating";
 const FeedBack = () => {
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  // State for showing teacher information
   const [showTeacherInfo, setShowTeacherInfo] = useState(Array(3).fill(false));
 
-  // Dummy teacher data
   const [teachers, setTeachers] = useState([
     {
       name: "Tukaram Shingade",
@@ -26,7 +24,6 @@ const FeedBack = () => {
       subjects: [
         { name: "Web Development", rating: 4 },
         { name: "Database Management", rating: 3 },
-        // Add more subjects and ratings as needed
       ],
     },
     {
@@ -47,15 +44,13 @@ const FeedBack = () => {
     },
   ]);
   const getPrecision = (rating) => {
-    // Fix function parameter
     if (rating % 1 === 0) {
-      return 1; // Return 1 if the rating is a whole number
+      return 1;
     } else {
-      return 0.5; // Return 0.5 if the rating is a decimal
+      return 0.5;
     }
   };
 
-  // Function to toggle teacher information display
   const toggleTeacherInfo = (index) => {
     setShowTeacherInfo((prevState) => {
       const newState = [...prevState];
@@ -113,32 +108,30 @@ const FeedBack = () => {
         border="1px solid lightgray"
         borderRadius="12px"
         position="relative"
-        minWidth="1200px" // Minimum width for the box
+        minWidth="1200px"
       >
         <Text
           fontSize="24px"
           fontWeight="bold"
           mb="50px"
           left="360px"
-          position="relative" // Added position to make use of left prop
+          position="relative"
         >
           Teachers FeedBack
         </Text>
-        {/* Search input */}
         <Input
           type="text"
           placeholder="Search for Teachers"
           position="absolute"
           top="90px"
           right="20px"
-          w="250px" // Increased width to 250px
+          w="250px"
           borderRadius="md"
           borderColor="gray.300"
           fontSize="18px"
           value={searchTerm}
           onChange={handleSearch}
         />
-        {/* Sort by select */}
         <Select
           placeholder="Sort by"
           position="absolute"
@@ -166,31 +159,25 @@ const FeedBack = () => {
               boxShadow="0 0 7px rgba(0, 0, 255, 0.5)"
               borderRadius="12px"
               p="20px"
-              height={{ base: "auto", sm: "300px" }} // Adjust the height as needed
+              height={{ base: "auto", sm: "300px" }} 
             >
-              {/* Teacher name */}
               <Text fontSize="16px" fontWeight="bold" mb="8px">
                 {teacher.name}
               </Text>
-              {/* Department */}
               <Text fontSize="14px" mb="8px">
                 Department: {teacher.department}
               </Text>
-              {/* Subjects and ratings */}
               {teacher.subjects.map((subject, subjectIndex) => (
                 <Box
                   key={subjectIndex}
                   mb="8px"
                   display="flex"
-                  flexDirection="column" // Render stars below the course name
+                  flexDirection="column" 
                 >
-                  {/* Course name */}
                   <Text fontSize="14px" fontWeight="bold" mb="4px">
                     Course: {subject.name}
                   </Text>
-                  {/* Rating stars */}
                   <Box display="flex">
-                    {/* Render Rating component with dynamic precision */}
                     <Rating
                       key={subjectIndex}
                       name={`rating-${index}-${subjectIndex}`}

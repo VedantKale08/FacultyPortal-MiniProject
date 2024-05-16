@@ -59,10 +59,8 @@ const AdminDashboard = () => {
         Welcome to Admin's Dashboard
       </Heading>
       <Flex justify="space-around" gap="80" mx="50">
-        {/* Display total number of students */}
         <Box
           p={6}
-          // boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
           className="rounded-xl"
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
@@ -89,10 +87,8 @@ const AdminDashboard = () => {
             </Flex>
           </Stat>
         </Box>
-        {/* Display teacher's attendance */}
         <Box
           p={6}
-          // boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
           className="rounded-xl"
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
@@ -119,10 +115,8 @@ const AdminDashboard = () => {
             </Flex>
           </Stat>
         </Box>
-        {/* Display total number of classes */}
         <Box
           p={6}
-          // boxShadow="md"
           bg={useColorModeValue("white", "gray.700")}
           className="rounded-xl"
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"

@@ -85,14 +85,14 @@ const Report = () => {
         border="1px solid lightgray"
         borderRadius="12px"
         position="relative"
-        minWidth="1200px" // Minimum width for the box
+        minWidth="1200px"
       >
         <Text
           fontSize="24px"
           fontWeight="bold"
           mb="20px"
           left="505px"
-          position="relative" // Added position to make use of left prop
+          position="relative"
         >
           Report
         </Text>
@@ -114,7 +114,7 @@ const Report = () => {
             borderColor="blue.400"
             boxShadow="0 0 0 3px rgba(66, 153, 225, 0.6)"
             borderRadius="5px"
-            width="800px" // Set the width to 300 pixels
+            width="800px"
             height="40px"
             mb={15}
           />
@@ -135,7 +135,7 @@ const Report = () => {
             borderColor="blue.400"
             boxShadow="0 0 0 3px rgba(66, 153, 225, 0.6)"
             borderRadius="5px"
-            width="800px" // Set the width to 300 pixels
+            width="800px"
             height="100px"
             mb={5}
           />
@@ -172,7 +172,6 @@ const Report = () => {
               textAlign="center"
               className="flex flex-col justify-center items-center"
             >
-              {/* Display a small text box when "Yes" is clicked */}
               <text>Enter the email-id of teachers </text>
               <Input
                 type="text"
@@ -186,7 +185,6 @@ const Report = () => {
           )}
           {!showTextBox && (
             <Box mt="4" mb="20" textAlign="center">
-              {/* Display a small text box when "Yes" is clicked */}
               <Text>Else this message will be send to all the teachers</Text>
             </Box>
           )}
