@@ -117,7 +117,7 @@ const TeacherLectureTT = () => {
     <div
       style={{
         marginLeft: "400px",
-        marginTop: "70px",
+        marginTop: "40px",
         backgroundColor: "#ffffff",
         padding: "50px",
         borderRadius: "10%",
@@ -127,25 +127,20 @@ const TeacherLectureTT = () => {
       }}
       className="flex flex-col items-center"
     >
-      <Box position="absolute" top="60px" right="10px">
-        <IconButton
-          aria-label="Add lecture"
-          icon={
-            <AddIcon
-              style={{
-                backgroundColor: "#3652AD",
-                color: "#ffffff",
-                padding: "10px",
-                fontSize: "40px",
-                borderRadius: "50%",
-                marginRight: "5px",
-                marginTop: "5px",
-              }}
-            />
-          }
+      {/* <Box position="absolute" bottom="20px" right="10px">
+        <Button
+          variant="ghost"
           onClick={onOpen}
-        />
-      </Box>
+          style={{
+            backgroundColor: "#3652AD",
+            color: "#ffffff",
+            padding: "7px",
+            borderRadius: "10%",
+          }}
+        >
+          Add new Lecture
+        </Button>
+      </Box> */}
       <h1
         style={{
           fontWeight: "bold",

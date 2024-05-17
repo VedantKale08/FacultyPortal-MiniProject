@@ -142,24 +142,19 @@ const LectureHistory = () => {
       pb="50px"
       style={{ marginTop: "50px" }}
     >
-      <Box position="absolute" top="60px" right="10px">
-        <IconButton
-          aria-label="Add lecture"
-          icon={
-            <AddIcon
-              style={{
-                backgroundColor: "#3652AD",
-                color: "#ffffff",
-                padding: "10px",
-                fontSize: "40px",
-                borderRadius: "50%",
-                marginRight: "5px",
-                marginTop: "5px",
-              }}
-            />
-          }
+      <Box position="absolute" bottom="20px" right="10px">
+        <Button
+          variant="ghost"
           onClick={() => setIsNewLectureModalOpen(true)}
-        />
+          style={{
+            backgroundColor: "#3652AD",
+            color: "#ffffff",
+            padding: "7px",
+            borderRadius: "10%",
+          }}
+        >
+          Add new Lecture
+        </Button>
       </Box>
       <div
         className="container"

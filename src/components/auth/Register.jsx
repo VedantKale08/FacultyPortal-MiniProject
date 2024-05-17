@@ -136,7 +136,7 @@ const Register = () => {
 
   return (
     <div className="bg-[#6EBCEC] h-screen overflow-hidden flex justify-center items-center">
-      <div className="bg-white w-[40vw] p-10 rounded-lg shadow-md flex flex-col gap-5">
+      <div className="bg-white md:w-[40vw] w-[90vw] p-10 rounded-lg shadow-md flex flex-col gap-5">
         <div className="text-center">
           <p className="text-3xl font-bold">FacultyPortal</p>
           <p className="text-slate-500 text-sm">Welcome to faculty portal !</p>

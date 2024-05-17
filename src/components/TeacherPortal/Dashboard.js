@@ -108,7 +108,7 @@ const Dashboard = () => {
                 <FiCheckCircle fontSize={20} />
               </Box>
               <StatLabel fontSize="20px">Avg Student's Attendance</StatLabel>
-              <StatNumber fontSize="20px">{teacherAttendance}</StatNumber>
+              <StatNumber fontSize="20px">{teacherAttendance ? teacherAttendance : 0}</StatNumber>
             </Flex>
           </Stat>
         </Box>
