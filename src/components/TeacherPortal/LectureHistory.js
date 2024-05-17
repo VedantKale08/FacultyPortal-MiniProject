@@ -14,7 +14,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
   ModalBody,
   ModalFooter,
   Button,
@@ -32,7 +31,6 @@ const LectureHistory = () => {
   const [editedAttendance, setEditedAttendance] = useState(0);
   const [isNewLectureModalOpen, setIsNewLectureModalOpen] = useState(false);
   const [newSubject, setNewSubject] = useState("");
-  const [newProgram, setNewProgram] = useState("");
   const [newTopics, setNewTopics] = useState("");
   const [newAttendance, setNewAttendance] = useState(0);
   const [lec, setlec] = useState();
@@ -136,7 +134,6 @@ const LectureHistory = () => {
     <Flex
       direction="column"
       p="4"
-      mt="8"
       ml="246px"
       pr="50px"
       pb="50px"
@@ -294,7 +291,6 @@ const LectureHistory = () => {
           </ModalBody>
           <ModalFooter>
             <Button
-              colorScheme="blue"
               mr={3}
               onClick={handleUpdate}
               style={{
@@ -382,7 +378,6 @@ const LectureHistory = () => {
           </ModalBody>
           <ModalFooter>
             <Button
-              colorScheme="blue"
               mr={3}
               onClick={handleNewLectureSubmit}
               style={{

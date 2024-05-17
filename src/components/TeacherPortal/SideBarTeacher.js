@@ -129,7 +129,7 @@ const SideBarTeacher = ({ children }) => {
   return (
     <Box minH="100vh" bg="gray.100">
       <SidebarContent />
-      <Box ml={{ base: 0, md: "15vw" }} p="">
+      <Box ml={{ md: "15vw" }} p="">
         <div className="flex flex-col overflow-x-hidden">
           <NavbarV2 />
           {children}
