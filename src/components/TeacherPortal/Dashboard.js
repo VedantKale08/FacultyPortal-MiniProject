@@ -127,7 +127,7 @@ const Dashboard = () => {
             >
               <Box
                 as="span"
-                fontSize="5xl"
+                fontSize="20px"
                 color="purple.500"
                 mb={4}
                 flexShrink={0}
