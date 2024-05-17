@@ -39,7 +39,6 @@ const Dashboard = () => {
   return (
     <Box
       p={8}
-      ml={{ base: 0, md: 60 }}
       bg="gray.100"
       minHeight="100vh"
       marginLeft="240px"
@@ -58,7 +57,7 @@ const Dashboard = () => {
       <Flex justify="space-around" gap="80" mx="50">
         <Box
           p={6}
-          bg={useColorModeValue("white", "gray.700")}
+          bg="white"
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
           flex="1"
           className="rounded-xl"
@@ -72,8 +71,8 @@ const Dashboard = () => {
             >
               <Box
                 as="span"
-                fontSize="5xl"
-                color="blue.500"
+                fontSize="20px"
+                color="black"
                 mb={4}
                 flexShrink={0}
               >
@@ -86,7 +85,7 @@ const Dashboard = () => {
         </Box>
         <Box
           p={6}
-          bg={useColorModeValue("white", "gray.700")}
+          bg="white"
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
           flex="1"
           className="rounded-xl"
@@ -100,8 +99,8 @@ const Dashboard = () => {
             >
               <Box
                 as="span"
-                fontSize="5xl"
-                color="green.500"
+                fontSize="20px"
+                color="black"
                 mb={4}
                 flexShrink={0}
               >
