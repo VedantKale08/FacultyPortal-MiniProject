@@ -113,7 +113,7 @@ const Dashboard = () => {
         </Box>
         <Box
           p={6}
-          bg={useColorModeValue("white", "gray.700")}
+          bg="white"
           boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
           flex="1"
           className="rounded-xl"
